@@ -4,173 +4,83 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DESAN — IT Solutions & Bots</title>
+  <!-- Hi‑Tech font for logo -->
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
   <style>
     /* ========== RESET ========== */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background:#0e0f14; color:#eee;
-      overflow-x:hidden;
-      font-family:'Segoe UI',sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0e0f14;color:#eee;overflow-x:hidden;font-family:'Segoe UI',sans-serif;}
     a{color:inherit;text-decoration:none;}
     h2{color:#00fff7;font-size:2.5rem;margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;}
 
     /* ========== HEADER ========== */
-    header.header {
-      position:relative; width:100%; padding:4rem 1rem;
-      background:rgba(14,15,20,0.94);backdrop-filter:blur(12px);
-      text-align:center; overflow:hidden;
-    }
-    /* два canvas для matrix */
-    header.header canvas.bg,
-    header.header canvas.fg {
-      position:absolute;top:0;left:0; width:100%;height:100%;pointer-events:none;
-    }
-    canvas.bg { z-index:0; filter:brightness(0.4); }
-    canvas.fg {
-      z-index:2; mix-blend-mode:screen; opacity:0.15;
-      animation:fgPulse 10s infinite alternate;
-    }
-    @keyframes fgPulse { from{opacity:0.1;} to{opacity:0.25;} }
+    header.header{position:relative;width:100%;padding:4rem 1rem;background:rgba(14,15,20,0.94);backdrop-filter:blur(12px);text-align:center;overflow:hidden;}
+    header.header canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+    canvas.bg{z-index:0;filter:brightness(0.4);}
+    canvas.fg{z-index:2;mix-blend-mode:screen;opacity:0.15;animation:fgPulse 12s infinite alternate;}
+    @keyframes fgPulse{from{opacity:0.1;}to{opacity:0.25;}}
 
-    /* шрифт логотипа — Courier New */
-    header.header .logo {
-      position:relative; z-index:3; display:inline-block;
-      font-family:'Courier New',monospace;
-      font-size:8rem; letter-spacing:14px; color:#fff;
-      margin-bottom:1rem;
-    }
-    /* каждая буква */
-    header.header .logo span {
-      display:inline-block; position:relative;
-      transition:color .3s ease;
-    }
-    /* символы поверх букв */
-    header.header .logo span::after {
-      content:attr(data-char);
-      position:absolute;top:0;left:0;
-      color:rgba(0,255,247,0.2);
-      mix-blend-mode:overlay;opacity:0;
-      transition:opacity .3s ease;
-    }
+    /* logo */
+    header.header .logo{position:relative;z-index:3;font-family:'Audiowide',sans-serif;font-size:8rem;letter-spacing:14px;color:#fff;margin-bottom:1rem;display:inline-block;}
+    header.header .logo span{display:inline-block;position:relative;transition:color .3s;}
+    header.header .logo span::before{content:attr(data-char);position:absolute;top:-2rem;left:0;color:rgba(0,255,247,0.2);font-family:monospace;font-size:1rem;white-space:nowrap;animation:logoRain 8s linear infinite;}
+    @keyframes logoRain{to{transform:translateY(4rem);} }
 
-    header.header .header-subtitle {
-      position:relative; z-index:3;
-      font-size:3rem; font-weight:600; color:#00fff7;
-    }
+    /* subtitle + overlay canvas */
+    header.header .header-subtitle{position:relative;z-index:3;font-size:3rem;font-weight:600;color:#00fff7;margin-top:1rem;}
+    canvas.sub{position:absolute;top:calc(50% + 2rem);left:0;width:100%;height:3rem;z-index:2;pointer-events:none;mix-blend-mode:overlay;opacity:0.1;}
 
     @media(max-width:720px){
-      header.header {padding:2rem 1rem;}
-      header.header .logo {font-size:4.5rem;letter-spacing:8px;}
+      header.header{padding:2rem 1rem;}
+      header.header .logo{font-size:4.5rem;letter-spacing:8px;}
       header.header .header-subtitle{font-size:1.8rem;}
     }
 
     /* ========== MAIN ========== */
-    main { max-width:1080px; width:90%; margin:4rem auto; }
-    section {
-      opacity:0; transform:translateY(30px);
-      transition:opacity .8s,transform .8s; margin-bottom:3rem;
-    }
-    section.visible { opacity:1; transform:translateY(0); }
+    main{max-width:1080px;width:90%;margin:4rem auto;}
+    section{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s;margin-bottom:3rem;}
+    section.visible{opacity:1;transform:translateY(0);}
 
-    /* ========== SERVICES (TABLE) ========== */
-    .services-table {
-      width:100%; border-collapse:collapse; margin-bottom:2rem;
+    /* ========== SERVICES ========== */
+    .services-table{width:100%;border-collapse:collapse;margin-bottom:2rem;}
+    .services-table td{padding:1rem;vertical-align:top;}
+    .service-item{background:#011b1d;border-radius:16px;padding:2rem;overflow:hidden;cursor:default;
+      border:2px solid transparent;
+      animation:borderShift 4s infinite ease-in-out alternate;
+      transition:box-shadow .3s;
     }
-    .services-table td {
-      width:33%; padding:1rem; vertical-align:top;
+    @keyframes borderShift{
+      from{border-color:rgba(0,255,138,0.2);}
+      to{border-color:rgba(0,255,138,0.8);}
     }
-    .service-item {
-      background:#011b1d; border-radius:16px; padding:2rem;
-      overflow:hidden; cursor:pointer;
-      transition:transform .3s ease,box-shadow .3s ease;
-    }
-    .service-item:hover {
-      transform:translateY(-8px);
-      box-shadow:0 12px 36px rgba(0,255,138,0.3);
-    }
-    .service-item .icon {
-      font-size:3rem; margin-bottom:1rem; color:#00ff8a;
-    }
-    .service-item .title {
-      font-size:1.4rem; font-weight:700; margin-bottom:1rem; color:#fff;
-    }
-    @keyframes glitch {
-      0%,100%{text-shadow:none;}
-      10%{text-shadow:2px 0 #00ff8a;}
-      20%{text-shadow:-2px 0 #00fff7;}
-      30%{text-shadow:2px 2px #00ff8a;}
-      40%{text-shadow:-2px -2px #00fff7;}
-      50%{text-shadow:2px -2px #00ff8a;}
-      60%{text-shadow:-2px 2px #00fff7;}
-      70%{text-shadow:2px 0 #00ff8a;}
-      80%{text-shadow:-2px 0 #00fff7;}
-      90%{text-shadow:none;}
-    }
-    .service-item.active .title { animation:glitch 1.2s; }
+    .service-item:hover{box-shadow:0 12px 36px rgba(0,255,138,0.5);}
+    .service-item .icon{font-size:3rem;margin-bottom:1rem;color:#00ff8a;}
+    .service-item .title{font-size:1.4rem;font-weight:700;margin-bottom:1rem;color:#fff;}
+    .service-item .desc{color:#ccc;font-size:1rem;line-height:1.5;}
 
-    .service-item .desc {
-      max-height:0; opacity:0;
-      transition:max-height .5s ease,opacity .5s ease;
-    }
-    .service-item.revealed .desc {
-      max-height:200px; opacity:1; margin-top:1rem;
-      color:#00ff8a; font-size:1rem; line-height:1.5;
+    @media(max-width:720px){
+      .services-table,.services-table tr,.services-table td{display:block;width:100%;}
+      .services-table td{padding:0 0 1rem;}
     }
 
     /* ========== ABOUT ========== */
-    .about p {
-      font-size:1.3rem; line-height:1.75; color:#ccc;
-      position:relative; overflow:hidden;
-    }
-    .about p::after {
-      content:'0101010101';
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      color:rgba(0,255,247,0.05);
-      font-family:monospace; font-size:1.5rem; white-space:nowrap;
-      pointer-events:none;
-      animation:overlayMove 14s linear infinite;
-    }
-    @keyframes overlayMove {
-      0%{transform:translate(0,0);}100%{transform:translate(120px,120px);}
-    }
+    .about p{font-size:1.3rem;line-height:1.75;color:#ccc;position:relative;overflow:hidden;}
+    .about p::after{content:'0101010101';position:absolute;top:0;left:0;width:100%;height:100%;color:rgba(0,255,247,0.05);font-family:monospace;font-size:1.5rem;white-space:nowrap;pointer-events:none;animation:overlayMove 18s linear infinite;}
+    @keyframes overlayMove{0%{transform:translate(0,0);}100%{transform:translate(140px,140px);} }
 
     /* ========== FEATURES ========== */
-    .features-list {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:2rem; margin-top:2rem;
-    }
-    .feature-item {
-      background:#122; border-radius:12px; padding:1.5rem;
-      transition:transform .3s ease,background .3s ease;
-    }
-    .feature-item:hover {
-      background:#144; transform:scale(1.04);
-    }
+    .features-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem;}
+    .feature-item{background:#122;border-radius:12px;padding:1.5rem;transition:transform .3s,background .3s;}
+    .feature-item:hover{background:#144;transform:scale(1.05);}
     .feature-item h3{color:#00ff8a;margin-bottom:.5rem;}
     .feature-item p{color:#ccc;line-height:1.5;}
 
     /* ========== BUTTON ========== */
-    .btn-primary {
-      display:inline-block;
-      background:linear-gradient(90deg,#00fff7,#00ff8a);
-      color:#0e0f14; padding:.75rem 2.5rem;
-      border-radius:30px; font-weight:700;
-      text-transform:uppercase; box-shadow:0 0 20px #00ff8a88;
-      transition:transform .3s ease; margin:2rem auto;
-      cursor:pointer;
-    }
-    .btn-primary:hover { transform:scale(1.05); }
+    .btn-primary{display:inline-block;background:linear-gradient(90deg,#00fff7,#00ff8a);color:#0e0f14;padding:.75rem 2.5rem;border-radius:30px;font-weight:700;text-transform:uppercase;box-shadow:0 0 20px #00ff8a88;transition:transform .3s ease;margin:2rem auto;cursor:pointer;}
+    .btn-primary:hover{transform:scale(1.05);}
 
     /* ========== FOOTER ========== */
-    footer.footer {
-      width:100%; padding:2rem 1rem;
-      background:#011b1d; text-align:center;
-      color:#00ff8acc; font-weight:600;
-    }
+    footer.footer{width:100%;padding:2rem 1rem;background:#011b1d;text-align:center;color:#00ff8acc;font-weight:600;}
   </style>
 </head>
 <body>
@@ -179,10 +89,10 @@
   <canvas class="matrix-canvas bg"></canvas>
   <canvas class="matrix-canvas fg"></canvas>
   <div class="logo" id="logo">
-    <!-- каждую букву оборачиваем в span -->
     <span>D</span><span>E</span><span>S</span><span>A</span><span>N</span>
   </div>
   <div class="header-subtitle">Будущее начинается здесь</div>
+  <canvas class="matrix-canvas sub"></canvas>
 </header>
 
 <main>
@@ -190,177 +100,108 @@
     <h2>Наши услуги</h2>
     <table class="services-table">
       <tr>
-        <td>
-          <div class="service-item" data-desc="desc1">
-            <span class="icon">💻</span>
-            <span class="title">Веб‑разработка</span>
-            <div id="desc1" class="desc">
-              Адаптивные сайты и веб‑приложения с уникальным дизайном и анимациями.
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="service-item" data-desc="desc2">
-            <span class="icon">🤖</span>
-            <span class="title">Telegram‑боты</span>
-            <div id="desc2" class="desc">
-              Автоматизация бизнес-процессов через интеллектуальные боты.
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="service-item" data-desc="desc3">
-            <span class="icon">💬</span>
-            <span class="title">WhatsApp‑боты</span>
-            <div id="desc3" class="desc">
-              Мгновенная поддержка и продажи через WhatsApp-интерфейс.
-            </div>
-          </div>
-        </td>
+        <td><div class="service-item"><span class="icon">💻</span><span class="title">Веб‑разработка</span><div class="desc">Адаптивные сайты и веб‑приложения с уникальным дизайном и анимациями.</div></div></td>
+        <td><div class="service-item"><span class="icon">🤖</span><span class="title">Telegram‑боты</span><div class="desc">Автоматизация бизнес-процессов через интеллектуальные боты.</div></div></td>
+        <td><div class="service-item"><span class="icon">💬</span><span class="title">WhatsApp‑боты</span><div class="desc">Мгновенная поддержка и продажи через WhatsApp‑интерфейс.</div></div></td>
       </tr>
       <tr>
-        <td>
-          <div class="service-item" data-desc="desc4">
-            <span class="icon">🧠</span>
-            <span class="title">Искусственный интеллект</span>
-            <div id="desc4" class="desc">
-              ML/AI решения для аналитики, прогнозов и автоматизации.
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="service-item" data-desc="desc5">
-            <span class="icon">☁️</span>
-            <span class="title">Облачные решения</span>
-            <div id="desc5" class="desc">
-              Надёжная, масштабируемая инфраструктура в облаках.
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="service-item" data-desc="desc6">
-            <span class="icon">⚙️</span>
-            <span class="title">Интеграции CRM</span>
-            <div id="desc6" class="desc">
-              Свяжем все системы в единую экосистему для автоматизации.
-            </div>
-          </div>
-        </td>
+        <td><div class="service-item"><span class="icon">🧠</span><span class="title">Искусственный интеллект</span><div class="desc">ML/AI решения для аналитики, прогнозов и автоматизации.</div></div></td>
+        <td><div class="service-item"><span class="icon">☁️</span><span class="title">Облачные решения</span><div class="desc">Надёжная, масштабируемая инфраструктура в облаках.</div></div></td>
+        <td><div class="service-item"><span class="icon">⚙️</span><span class="title">Интеграции CRM</span><div class="desc">Свяжем все системы в единую экосистему для автоматизации.</div></div></td>
       </tr>
     </table>
   </section>
 
   <section class="about">
     <h2>О компании</h2>
-    <p>
-      Компания DESAN — эксперты в создании современных цифровых решений.
-      Мы разрабатываем сайты любой сложности, продвинутые Telegram‑ и WhatsApp‑боты,
-      интегрируем CRM, внедряем AI и облачные сервисы для полного цикла автоматизации.
-    </p>
+    <p>Компания DESAN — эксперты в создании современных цифровых решений. Мы разрабатываем сайты любой сложности, продвинутые Telegram‑ и WhatsApp‑боты, интегрируем CRM, внедряем AI и облачные сервисы для полного цикла автоматизации.</p>
   </section>
 
   <section class="features">
     <h2>Дополнительные возможности</h2>
     <div class="features-list">
-      <div class="feature-item">
-        <h3>24/7 Техподдержка</h3>
-        <p>Круглосуточная поддержка для бесперебойной работы ваших сервисов.</p>
-      </div>
-      <div class="feature-item">
-        <h3>Аналитика и отчёты</h3>
-        <p>Дашборды и метрики в реальном времени для принятия решений.</p>
-      </div>
-      <div class="feature-item">
-        <h3>UI/UX дизайн</h3>
-        <p>Эстетичные и удобные интерфейсы для повышения конверсии.</p>
-      </div>
+      <div class="feature-item"><h3>24/7 Техподдержка</h3><p>Круглосуточная поддержка для бесперебойной работы ваших сервисов.</p></div>
+      <div class="feature-item"><h3>Аналитика и отчёты</h3><p>Дашборды и метрики в реальном времени для принятия решений.</p></div>
+      <div class="feature-item"><h3>UI/UX дизайн</h3><p>Эстетичные и удобные интерфейсы для повышения конверсии.</p></div>
     </div>
   </section>
 
   <div style="text-align:center">
-    <button class="btn-primary" onclick="alert('Спасибо за интерес!')">
-      Связаться с нами
-    </button>
+    <button class="btn-primary" onclick="alert('Спасибо за интерес!')">Связаться с нами</button>
   </div>
 </main>
 
-<footer class="footer">
-  &copy; 2025 DESAN. Все права защищены.
-</footer>
+<footer class="footer">&copy; 2025 DESAN. Все права защищены.</footer>
 
 <script>
-  // MATRIX EFFECT
-  const canvBg = document.querySelector('canvas.bg'),
-        canvFg = document.querySelector('canvas.fg'),
-        ctxBg   = canvBg.getContext('2d'),
-        ctxFg   = canvFg.getContext('2d');
+  // MATRIX EFFECT (замедлено)
+  const bg = document.querySelector('canvas.bg'),
+        fg = document.querySelector('canvas.fg'),
+        sub = document.querySelector('canvas.sub'),
+        ctxBg = bg.getContext('2d'),
+        ctxFg = fg.getContext('2d'),
+        ctxSub= sub.getContext('2d');
   let w,h,cols,drops;
-  const size = 16, c0=[0,255,247], c1=[0,255,16];
+  const size=16, c0=[0,255,247], c1=[0,255,16];
 
-  function lerp(a,b,t){ return a.map((v,i)=>v+(b[i]-v)*t); }
+  function lerp(a,b,t){return a.map((v,i)=>v+(b[i]-v)*t);}
   function resize(){
     w=innerWidth; h=500;
-    [canvBg,canvFg].forEach(c=>{c.width=w; c.height=h;});
+    [bg,fg].forEach(c=>{c.width=w;c.height=h;});
+    sub.width=w; sub.height=60;
     cols=Math.floor(w/size);
     drops=Array(cols).fill(0).map(()=>Math.random()*h/size);
   }
-  function draw(){
-    [ctxBg,ctxFg].forEach(ctx=>{
-      ctx.fillStyle='rgba(14,15,20,0.12)';
-      ctx.fillRect(0,0,w,h);
-      ctx.font=`${size}px monospace`;
-    });
+
+  function drawMatrix(ctx,height,invert=false){
+    ctx.fillStyle='rgba(14,15,20,0.1)';ctx.fillRect(0,0,w,height);
+    ctx.font=`${size}px monospace`;
     drops.forEach((d,i)=>{
-      const t = Math.min(Math.max(d/(h/size),0),1),
-            [r,g,b] = lerp(c0,c1,t),
-            ch = Math.random()>0.5?'0':'1';
-      ctxBg.fillStyle = `rgba(${r},${g},${b},0.7)`;
-      ctxBg.fillText(ch, i*size, d*size);
-      ctxFg.fillStyle = `rgba(${255-r},${255-g},${255-b},0.3)`;
-      ctxFg.fillText(ch, i*size, d*size);
-      drops[i] += 0.2 + Math.random()*0.05;
-      if (drops[i]*size>h && Math.random()>0.98) drops[i]=0;
+      const t=Math.min(Math.max(d/(height/size),0),1);
+      const [r,g,b]=lerp(c0,c1,t);
+      const ch=Math.random()>0.5?'0':'1';
+      ctx.fillStyle=invert
+        ?`rgba(${255-r},${255-g},${255-b},0.3)`
+        :`rgba(${r},${g},${b},0.7)`;
+      ctx.fillText(ch,i*size,d*size);
+      drops[i]+=0.1+Math.random()*0.03;
+      if(drops[i]*size>height&&Math.random()>0.995)drops[i]=0;
     });
   }
-  function loop(){ draw(); requestAnimationFrame(loop); }
+
+  function loop(){
+    drawMatrix(ctxBg,h,false);
+    drawMatrix(ctxFg,h,true);
+    drawMatrix(ctxSub,60,false);
+    requestAnimationFrame(loop);
+  }
+
   window.addEventListener('resize',resize);
   resize(); loop();
 
   // REVEAL SECTIONS
   document.querySelectorAll('section').forEach(sec=>{
-    new IntersectionObserver((ents,obs)=>{
-      if (ents[0].isIntersecting){ sec.classList.add('visible'); obs.disconnect(); }
+    new IntersectionObserver((e,o)=>{
+      if(e[0].isIntersecting){sec.classList.add('visible');o.disconnect();}
     },{threshold:0.2}).observe(sec);
   });
 
   // GLITCH LOGO
-  const logoSpans = document.querySelectorAll('#logo span');
-  const symbols = ['<','>','[',']','{','}','*','&','^','%','$','#','@','?','0','1'];
+  const spans = document.querySelectorAll('#logo span'),
+        syms = ['<','>','[',']','{','}','*','&','^','%','$','#','@','?','0','1'];
   setInterval(()=>{
-    const idx = Math.floor(Math.random()*logoSpans.length),
-          orig=logoSpans[idx].textContent,
-          sym = symbols[Math.floor(Math.random()*symbols.length)];
-    logoSpans[idx].textContent = sym;
-    logoSpans[idx].setAttribute('data-char', sym);
-    logoSpans[idx].style.color = '#00ff8a';
+    const i=Math.floor(Math.random()*spans.length),
+          orig=spans[i].textContent,
+          s=syms[Math.floor(Math.random()*syms.length)];
+    spans[i].textContent=s;
+    spans[i].setAttribute('data-char',s);
+    spans[i].style.color='#00ff8a';
     setTimeout(()=>{
-      logoSpans[idx].textContent = orig;
-      logoSpans[idx].setAttribute('data-char','');
-      logoSpans[idx].style.color = '#fff';
-    },400);
-  },800);
-
-  // SERVICE ITEMS
-  document.querySelectorAll('.service-item').forEach(item=>{
-    new IntersectionObserver((ents,obs)=>{
-      if (ents[0].isIntersecting){
-        item.classList.add('active');
-        setTimeout(()=>item.classList.remove('active'),1200);
-        obs.disconnect();
-      }
-    },{threshold:0.6}).observe(item);
-    item.addEventListener('click',()=>item.classList.toggle('revealed'));
-  });
+      spans[i].textContent=orig;
+      spans[i].setAttribute('data-char','');
+      spans[i].style.color='#fff';
+    },1200);
+  },1600);
 </script>
 
 </body>
