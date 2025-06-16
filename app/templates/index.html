@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DESAN — IT Solutions & Bots</title>
   <style>
-    /* Reset */
+    /* ========== RESET ========== */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     body {
       background: #0e0f14;
       color: #eee;
@@ -18,330 +17,318 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 500px; /* space for header */
     }
+    a { color: inherit; text-decoration: none; }
 
     /* ========== HEADER ========== */
     header.header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 500px;
-      background: #0e0f14cc;
-      backdrop-filter: saturate(180%) blur(10px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      z-index: 10000;
-      user-select: none;
-      box-shadow: 0 2px 8px rgba(0,255,247,0.2);
-      padding: 0 20px;
+      width: 100%;
+      padding: 3rem 1rem;
+      background: rgba(14,15,20,0.9);
+      backdrop-filter: blur(8px);
       text-align: center;
+      position: relative; /* не фиксируем */
+      overflow: hidden;
     }
-
-    /* Логотип */
-    .logo {
-      font-weight: 900;
-      font-size: 7rem;
-      letter-spacing: 12px;
-      color: #fff;
-      user-select: none;
-      margin-bottom: 24px;
-      cursor: default;
-    }
-
-    .header-subtitle {
-      font-weight: 600;
-      font-size: 2.5rem;
-      color: #fff;
-      letter-spacing: 2px;
-      user-select: none;
-      margin-bottom: 16px;
-    }
-
-    .header-description {
-      font-weight: 500;
-      font-size: 1.5rem;
-      color: #fff;
-      max-width: 900px;
-      padding: 0 10px;
-      line-height: 1.5;
-      user-select: none;
-      opacity: 0.9;
-    }
-
-    /* ========== MATRIX CANVAS ========== */
-    canvas.matrix-canvas {
-      position: fixed;
+    /* Matrix canvas в шапке */
+    header.header canvas {
+      position: absolute;
       top: 0; left: 0;
-      width: 100vw;
-      height: 500px;
-      z-index: -1;
+      width: 100%; height: 100%;
+      z-index: 0;
       pointer-events: none;
-      background: transparent;
-      filter: brightness(0.85);
+      filter: brightness(0.5);
+    }
+    header.header .logo {
+      position: relative; z-index: 1;
+      font-size: 7rem; font-weight: 900;
+      color: #fff; letter-spacing: 12px;
+      margin-bottom: 1rem;
+    }
+    header.header .header-subtitle {
+      position: relative; z-index:1;
+      font-size: 2.5rem; font-weight: 600;
+      margin-bottom: .5rem;
+    }
+    header.header .header-description {
+      position: relative; z-index:1;
+      font-size: 1.5rem; max-width: 900px;
+      margin: 0 auto; line-height: 1.5;
     }
 
-    /* ========== MAIN CONTENT ========== */
+    /* ========== MAIN ========== */
     main {
       max-width: 1080px;
-      width: 90vw;
-      color: #ccc;
-      user-select: none;
-      margin-bottom: 60px;
-      text-align: center;
+      width: 90%;
+      margin: 4rem auto 2rem;
     }
-
-    main section {
-      margin-bottom: 4.5rem;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1.6s forwards;
+    section {
+      margin-bottom: 4rem;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
     }
-    main section:nth-child(1) { animation-delay: 0.5s;}
-    main section:nth-child(2) { animation-delay: 1.1s;}
-    main section:nth-child(3) { animation-delay: 1.7s;}
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+    section.visible {
+      opacity: 1; transform: translateY(0);
     }
-
+    h2 {
+      color: #00fff7; font-size: 2.5rem; margin-bottom: 1.5rem;
+      text-transform: uppercase; letter-spacing: 2px;
+    }
     .about p {
-      font-size: 1.3rem;
-      line-height: 1.75;
-      max-width: 900px;
-      margin: 0 auto;
-      color: #b8f9e0cc;
-      text-shadow: 0 0 10px #00ff9eaa;
-      padding: 0 10px;
+      font-size: 1.3rem; line-height: 1.75;
+      color: #ccc;
     }
 
-    /* Сервисы */
+    /* ========== SERVICES ========== */
     .services {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2.8rem;
-      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 2rem;
     }
-
     .service-item {
+      position: relative;
       background: #011b1d;
       border-radius: 16px;
-      padding: 30px 35px;
-      width: 320px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1.2rem;
-      cursor: default;
-      position: relative;
-      user-select: none;
+      padding: 2rem;
       overflow: hidden;
-      border: 2px solid transparent;
-      transition: border-color 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      transition: transform .3s ease;
     }
-
-    .service-item.active {
-      border-color: #00ff8a;
+    .service-item:hover {
+      transform: translateY(-10px);
+    }
+    .service-item .title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .service-item .icon {
+      font-size: 3rem;
+      margin-bottom: .8rem;
+      display: block;
+    }
+    /* глитч-анимация заголовка */
+    .service-item.glitch .title {
+      animation: glitch 1.2s;
+    }
+    @keyframes glitch {
+      0%,100% { text-shadow: none; }
+      10% { text-shadow: 2px 0 #00ff8a; }
+      20% { text-shadow: -2px 0 #00fff7; }
+      30% { text-shadow: 2px 2px #00ff8a; }
+      40% { text-shadow: -2px -2px #00fff7; }
+      50% { text-shadow: 2px -2px #00ff8a; }
+      60% { text-shadow: -2px 2px #00fff7; }
+      70% { text-shadow: 2px 0 #00ff8a; }
+      80% { text-shadow: -2px 0 #00fff7; }
+      90% { text-shadow: none; }
+    }
+    .service-item .desc {
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .5s ease, opacity .5s ease;
+    }
+    .service-item.revealed .desc {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 1rem;
       color: #00ff8a;
-    }
-
-    .glitch-text {
-      position: relative;
-      white-space: pre-wrap;
-    }
-
-    .service-description {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      color: #00ff8a;
-      font-weight: 600;
       font-size: 1rem;
       line-height: 1.4;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-      max-height: 200px;
-      overflow-y: auto;
-      background: rgba(0, 255, 138, 0.1);
+    }
+
+    /* ========== ADDITIONAL BLOCK (NEW) ========== */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 2rem;
+    }
+    .feature-item {
+      background: #122;
       border-radius: 12px;
-      text-align: center;
-      width: 90%;
+      padding: 1.5rem;
+      text-align: left;
+      transition: background .3s ease;
+    }
+    .feature-item:hover {
+      background: #144;
+    }
+    .feature-item h3 {
+      color: #00ff8a; margin-bottom: .5rem;
+    }
+    .feature-item p {
+      color: #ccc; line-height:1.5;
     }
 
-    .service-item.active .service-description {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Кнопка */
+    /* ========== CONTACT BUTTON ========== */
     .btn-primary {
-      margin: 0 auto 6rem auto;
-      background: linear-gradient(90deg, #00fff7, #00ff8a);
-      color: #0e0f14;
-      font-weight: 800;
-      padding: 1.1rem 3.4rem;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      font-size: 1.3rem;
-      letter-spacing: 2px;
-      box-shadow: 0 0 30px #00ffa0cc;
-      transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
       display: inline-block;
+      background: linear-gradient(90deg,#00fff7,#00ff8a);
+      color: #0e0f14;
+      padding: .75rem 2.5rem;
+      border-radius: 30px;
+      font-weight: 700;
       text-transform: uppercase;
+      box-shadow: 0 0 20px #00ff8a88;
+      transition: transform .3s ease;
     }
-    .btn-primary:hover {
-      background: linear-gradient(90deg, #00ccaf, #00ff97);
-      transform: scale(1.1);
-      box-shadow: 0 0 55px #00ff9eff;
-    }
+    .btn-primary:hover { transform: scale(1.05); }
 
+    /* ========== FOOTER ========== */
     footer.footer {
-      width: 100%;
-      background: #011b1d;
-      color: #00ff8acc;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-weight: 600;
-      font-size: 1rem;
-      box-shadow: inset 0 1px 10px #00ff8a44;
-      user-select: none;
+      width:100%; padding:2rem 1rem;
+      background:#011b1d; text-align:center;
+      color:#00ff8acc; font-weight:600;
     }
 
-    @media (max-width: 720px) {
-      .services { flex-direction: column; align-items: center; }
-      .service-item { width: 90%; }
-      .logo { font-size: 4.5rem; letter-spacing: 6px; }
-      .header-subtitle { font-size: 1.6rem; }
-      .header-description { font-size: 1.1rem; max-width: 320px; padding: 0 5px; }
-      body { padding-top: 400px; }
-      canvas.matrix-canvas { height: 400px; }
+    /* адаптив */
+    @media (max-width:720px) {
+      header.header { height:auto; padding:2rem 1rem; }
+      header.header .logo { font-size:4rem; }
+      header.header .header-subtitle { font-size:1.8rem; }
+      header.header .header-description { font-size:1.1rem; }
     }
   </style>
 </head>
 <body>
 
-<header class="header" role="banner" aria-label="Шапка сайта">
-  <canvas class="matrix-canvas" aria-hidden="true"></canvas>
-  <div class="logo" aria-label="Логотип компании DESAN">DESAN</div>
+<header class="header">
+  <canvas class="matrix-canvas"></canvas>
+  <div class="logo">DESAN</div>
   <div class="header-subtitle">Будущее начинается здесь</div>
-  <div class="header-description" aria-label="Описание компании">
+  <div class="header-description">
     Цифровые решения нового поколения — сайты, боты, AI и облачные технологии для вашего бизнеса.
   </div>
 </header>
 
-<main role="main" aria-labelledby="main-title">
-
-  <section class="about" id="main-title" tabindex="-1">
+<main>
+  <section class="about">
+    <h2>О компании</h2>
     <p>
       Компания DESAN — эксперты в создании современных цифровых решений.
-      Мы делаем сайты любой сложности, создаём и распространяем продвинутые Telegram-боты,
-      разрабатываем WhatsApp-боты с интеграцией CRM-систем,
-      внедряем искусственный интеллект для автоматизации бизнеса,
-      обеспечиваем надёжные облачные решения и масштабируемые сервисы.
+      Мы разрабатываем сайты любой сложности, продвинутые Telegram‑ и WhatsApp‑боты,
+      интегрируем CRM, внедряем AI и облачные сервисы для полного цикла автоматизации.
     </p>
   </section>
 
-  <section class="services" aria-label="Наши услуги">
-    <div class="service-item" data-desc="#desc1">
-      <div class="glitch-text">Создание сайтов любой сложности</div>
-      <div id="desc1" class="service-description">
-        Мы создаём для вас сайт любого типа: лендинг, корпоративный портал или интернет-магазин.
+  <section class="services">
+    <div class="service-item" data-desc="desc1">
+      <span class="icon">💻</span>
+      <span class="title">Веб‑разработка</span>
+      <div id="desc1" class="desc">
+        Адаптивные сайты и веб‑приложения с уникальным дизайном и анимациями.
       </div>
     </div>
-    <div class="service-item" data-desc="#desc2">
-      <div class="glitch-text">Разработка Telegram-ботов</div>
-      <div id="desc2" class="service-description">
-        Продвинутые Telegram-боты для автоматизации бизнес-процессов и интеграции с CRM.
+    <div class="service-item" data-desc="desc2">
+      <span class="icon">🤖</span>
+      <span class="title">Telegram‑боты</span>
+      <div id="desc2" class="desc">
+        Автоматизация бизнеса через интеллектуальные Telegram‑боты.
       </div>
     </div>
-    <div class="service-item" data-desc="#desc3">
-      <div class="glitch-text">Создание WhatsApp-ботов</div>
-      <div id="desc3" class="service-description">
-        WhatsApp-боты для мгновенной обработки заявок и общения с клиентами.
+    <div class="service-item" data-desc="desc3">
+      <span class="icon">💬</span>
+      <span class="title">WhatsApp‑боты</span>
+      <div id="desc3" class="desc">
+        Мгновенная поддержка и продажи через WhatsApp‑боты.
       </div>
     </div>
-    <div class="service-item" data-desc="#desc4">
-      <div class="glitch-text">Внедрение искусственного интеллекта</div>
-      <div id="desc4" class="service-description">
-        AI и ML для повышения эффективности, автоматизации и аналитики вашего бизнеса.
+    <div class="service-item" data-desc="desc4">
+      <span class="icon">🧠</span>
+      <span class="title">Искусственный интеллект</span>
+      <div id="desc4" class="desc">
+        ML/AI решения для аналитики и автоматизации.
       </div>
     </div>
-    <div class="service-item" data-desc="#desc5">
-      <div class="glitch-text">Облачные решения</div>
-      <div id="desc5" class="service-description">
-        Надёжные масштабируемые облачные решения на AWS, Google Cloud и Azure.
+    <div class="service-item" data-desc="desc5">
+      <span class="icon">☁️</span>
+      <span class="title">Облачные решения</span>
+      <div id="desc5" class="desc">
+        Надёжная, масштабируемая инфраструктура в облаках.
       </div>
     </div>
-    <div class="service-item" data-desc="#desc6">
-      <div class="glitch-text">Автоматизация бизнес-процессов</div>
-      <div id="desc6" class="service-description">
-        Оптимизация и автоматизация рутинных задач для ускорения роста бизнеса.
+    <div class="service-item" data-desc="desc6">
+      <span class="icon">⚙️</span>
+      <span class="title">Интеграции CRM</span>
+      <div id="desc6" class="desc">
+        Свяжем все системы в единую экосистему для максимальной эффективности.
       </div>
     </div>
   </section>
 
-  <button class="btn-primary" type="button" aria-label="Связаться с компанией DESAN"
-          onclick="alert('Свяжитесь с нами для консультации')">Связаться</button>
+  <section class="features">
+    <div class="feature-item">
+      <h3>24/7 Техподдержка</h3>
+      <p>Мы круглосуточно на связи, чтобы ваши сервисы работали без перерывов.</p>
+    </div>
+    <div class="feature-item">
+      <h3>Аналитика и отчёты</h3>
+      <p>Подробные дашборды и метрики в реальном времени для управления бизнесом.</p>
+    </div>
+    <div class="feature-item">
+      <h3>UI/UX дизайн</h3>
+      <p>Искусство создания удобных, эстетичных интерфейсов для пользователей.</p>
+    </div>
+  </section>
 
+  <div style="text-align:center; margin:4rem 0;">
+    <button class="btn-primary" onclick="alert('Спасибо за интерес!')">Связаться с нами</button>
+  </div>
 </main>
 
-<footer class="footer" role="contentinfo">
+<footer class="footer">
   &copy; 2025 DESAN. Все права защищены.
 </footer>
 
 <script>
-  // MATRIX EFFECT
+  // MATRIX CANVAS
   const canvas = document.querySelector('.matrix-canvas');
   const ctx = canvas.getContext('2d');
-  let width, height, columns, drops;
-  const fontSize = 18;
-  const startColor = [0,255,247], endColor=[0,255,16];
-  const lerp = (s,e,t)=>s.map((c,i)=>c+(e[i]-c)*t);
-  function init() {
-    width=window.innerWidth; height=500;
-    canvas.width=width; canvas.height=height;
-    columns=Math.floor(width/fontSize);
-    drops=Array(columns).fill(0).map(_=>Math.random()*height/fontSize);
+  let w, h, cols, drops;
+  const size = 18;
+  const c0=[0,255,247], c1=[0,255,16];
+  function lerp(a,b,t){ return a.map((v,i)=>v+(b[i]-v)*t) }
+  function resize() {
+    w=window.innerWidth; h=500;
+    canvas.width=w; canvas.height=h;
+    cols=Math.floor(w/size);
+    drops=Array(cols).fill(0).map(()=>Math.random()*h/size);
   }
   function draw() {
-    ctx.fillStyle='rgba(14,15,20,0.1)'; ctx.fillRect(0,0,width,height);
-    ctx.font=fontSize+'px monospace';
+    ctx.fillStyle='rgba(14,15,20,0.1)'; ctx.fillRect(0,0,w,h);
+    ctx.font=size+'px monospace';
     drops.forEach((d,i)=>{
-      const t=Math.min(Math.max(d/(height/fontSize),0),1);
-      const [r,g,b]=lerp(startColor,endColor,t);
+      const t=Math.min(Math.max(d/(h/size),0),1);
+      const [r,g,b]=lerp(c0,c1,t);
       ctx.fillStyle=`rgb(${r},${g},${b})`;
-      ctx.fillText(Math.random()>0.5?'0':'1',i*fontSize,d*fontSize);
+      ctx.fillText(Math.random()>0.5?'0':'1',i*size,d*size);
       drops[i]+=0.3+Math.random()*0.2;
-      if(drops[i]*fontSize>height && Math.random()>0.97) drops[i]=0;
+      if(drops[i]*size>h && Math.random()>0.97) drops[i]=0;
     });
   }
-  function loop(){ draw(); requestAnimationFrame(loop); }
-  window.addEventListener('resize',init);
-  init(); loop();
+  function loop(){ draw(); requestAnimationFrame(loop) }
+  window.addEventListener('resize',resize);
+  resize(); loop();
 
-  // GLITCH ONCE ON SCROLL
+  // SCROLL & GLITCH
   const items = document.querySelectorAll('.service-item');
-  const observer = new IntersectionObserver((entries,obs)=>{
-    entries.forEach(ent=>{
-      if(ent.isIntersecting) {
-        const el=ent.target;
-        el.classList.add('active');
-        const desc=el.querySelector('.service-description');
-        desc.style.opacity='1';
-        observer.unobserve(el);
+  const io = new IntersectionObserver((ents,obs)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting) {
+        const el=e.target;
+        el.classList.add('active','glitch');
+        setTimeout(()=> el.classList.remove('glitch'),1400);
+        obs.unobserve(el);
       }
     });
-  },{threshold:0.5});
-  items.forEach(it=>observer.observe(it));
+  },{threshold:.6});
+  items.forEach(i=>io.observe(i));
+  // REVEAL descriptions on click
+  items.forEach(it=>{
+    it.addEventListener('click',()=>{
+      it.classList.toggle('revealed');
+    });
+  });
 </script>
 
 </body>
