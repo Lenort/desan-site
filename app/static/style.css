@@ -21,19 +21,38 @@ body {
   background: rgba(14, 15, 20, 0.85);
   backdrop-filter: blur(8px);
   z-index: 10;
+  position: relative;
 }
 
 .centered-header .logo {
-  font-size: 2.4rem;
-  font-weight: bold;
+  font-size: 3rem; /* чуть больше */
+  font-weight: 900;
   color: #00fff7;
-  text-shadow: 0 0 15px #00fff7cc;
+  text-shadow:
+    0 0 8px #00fff7,
+    0 0 15px #00fff7,
+    0 0 25px #00ffff;
+  letter-spacing: 4px;
   animation: flicker 3s infinite ease-in-out;
+  user-select: none;
+  pointer-events: none;
 }
 
+/* Анимация мерцания */
 @keyframes flicker {
-  0%, 100% { opacity: 1; text-shadow: 0 0 10px #00fff7; }
-  50% { opacity: 0.6; text-shadow: 0 0 20px #00fff7aa; }
+  0%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 8px #00fff7,
+      0 0 15px #00fff7,
+      0 0 25px #00ffff;
+  }
+  50% {
+    opacity: 0.6;
+    text-shadow:
+      0 0 12px #00fff7aa,
+      0 0 20px #00ffffaa;
+  }
 }
 
 .menu {
@@ -41,6 +60,7 @@ body {
   justify-content: center;
   gap: 2rem;
   margin-top: 1rem;
+  user-select: none;
 }
 
 /* Matrix фон */
@@ -98,15 +118,32 @@ body {
   text-align: center;
   position: relative;
   z-index: 1;
+
+  animation: fadeInUp 1s ease forwards;
+  opacity: 0;
+}
+
+/* Появление плавное снизу */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }
 
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   color: #00fff7;
-  text-shadow: 0 0 10px #00fff7aa;
+  text-shadow: 0 0 15px #00fff7aa;
   margin-bottom: 1rem;
   font-weight: 700;
   text-transform: uppercase;
+
+  animation: flicker 3s infinite ease-in-out;
 }
 
 .hero p {
@@ -114,25 +151,34 @@ body {
   max-width: 600px;
   line-height: 1.6;
   color: #ccc;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
+  user-select: none;
 }
 
+/* Кнопка - меньше и современнее */
 .btn-primary {
   background: #00fff7;
   color: #0f0f0f;
   font-weight: 600;
-  font-size: 1.1rem;
-  padding: 0.9rem 2.5rem;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
   border: none;
-  border-radius: 50px;
+  border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 0 20px #00fff7aa;
+  box-shadow: 0 0 15px #00fff7cc;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2.7s infinite;
+  user-select: none;
 }
 
 .btn-primary:hover {
   transform: scale(1.05);
   box-shadow: 0 0 30px #00fff7;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 15px #00fff7cc; }
+  50% { box-shadow: 0 0 30px #00fff7ff; }
 }
 
 /* Адаптивность */
