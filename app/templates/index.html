@@ -29,54 +29,75 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     background: rgba(14, 15, 20, 0.85);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid #222;
-    z-index: 1000;
+    z-index: 1100;
+    box-shadow: 0 0 15px #00fff7aa;
+    animation: headerGlow 3s infinite alternate;
   }
+
+  @keyframes headerGlow {
+    0% {
+      box-shadow: 0 0 15px #00fff7aa;
+      background: rgba(14, 15, 20, 0.85);
+    }
+    50% {
+      box-shadow: 0 0 30px #00fff7ff;
+      background: rgba(14, 15, 20, 0.95);
+    }
+    100% {
+      box-shadow: 0 0 15px #00fff7aa;
+      background: rgba(14, 15, 20, 0.85);
+    }
+  }
+
   .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
   }
+
   .logo {
     font-weight: 900;
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     color: #00fff7;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     position: relative;
     cursor: default;
+    user-select: none;
+    animation: flicker 3s infinite ease-in-out;
   }
   /* Logo flicker animation */
   @keyframes flicker {
-    0%, 100% {opacity: 1; text-shadow: 0 0 8px #00fff7;}
-    50% {opacity: 0.6; text-shadow: 0 0 20px #00fff7, 0 0 30px #00ffff;}
-  }
-  .logo {
-    animation: flicker 3s infinite ease-in-out;
+    0%, 100% {opacity: 1; text-shadow: 0 0 12px #00fff7;}
+    50% {opacity: 0.6; text-shadow: 0 0 25px #00fff7, 0 0 40px #00ffff;}
   }
 
   nav.menu {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
   }
   nav.menu a {
     color: #aaa;
     text-decoration: none;
     font-weight: 600;
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.35s ease;
+    font-size: 1.1rem;
+    user-select: none;
   }
   nav.menu a::after {
     content: '';
     position: absolute;
-    bottom: -4px; left: 0;
-    width: 100%; height: 2px;
+    bottom: -5px; left: 0;
+    width: 100%; height: 3px;
     background: #00fff7;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease;
+    border-radius: 2px;
   }
   nav.menu a:hover {
     color: #00fff7;
@@ -92,26 +113,26 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 5rem;
+    padding-top: 6rem;
     text-align: center;
     background: linear-gradient(135deg, #02030a 0%, #0e0f14 100%);
     position: relative;
     overflow: hidden;
   }
   .hero h1 {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     font-weight: 900;
     color: #00fff7;
-    margin-bottom: 1rem;
-    letter-spacing: 3px;
+    margin-bottom: 1.2rem;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    filter: drop-shadow(0 0 8px #00fff7);
+    filter: drop-shadow(0 0 12px #00fff7);
     animation: slideInTop 1s ease forwards;
   }
   @keyframes slideInTop {
     0% {
       opacity: 0;
-      transform: translateY(-40px);
+      transform: translateY(-50px);
     }
     100% {
       opacity: 1;
@@ -119,13 +140,14 @@
     }
   }
   .hero p {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
     color: #ccc;
-    margin-bottom: 2rem;
-    max-width: 700px;
+    margin-bottom: 2.5rem;
+    max-width: 720px;
     margin-left: auto;
     margin-right: auto;
-    animation: fadeIn 1.5s ease forwards;
+    animation: fadeIn 1.7s ease forwards;
+    line-height: 1.6;
   }
   @keyframes fadeIn {
     from {opacity: 0;}
@@ -135,23 +157,25 @@
     background: #00fff7;
     color: #0e0f14;
     font-weight: 700;
-    padding: 1rem 3rem;
-    border-radius: 40px;
+    padding: 1rem 3.5rem;
+    border-radius: 50px;
     border: none;
     cursor: pointer;
-    font-size: 1.2rem;
-    letter-spacing: 1.5px;
-    box-shadow: 0 0 15px #00fff7aa;
-    transition: background 0.3s ease, transform 0.2s ease;
-    animation: pulse 2.5s infinite;
+    font-size: 1.25rem;
+    letter-spacing: 1.7px;
+    box-shadow: 0 0 18px #00fff7cc;
+    transition: background 0.3s ease, transform 0.25s ease;
+    animation: pulse 2.7s infinite;
+    user-select: none;
   }
   .btn-primary:hover {
     background: #00c4b7;
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #00fff7ff;
   }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 15px #00fff7aa; }
-    50% { box-shadow: 0 0 25px #00fff7ff; }
+    0%, 100% { box-shadow: 0 0 18px #00fff7cc; }
+    50% { box-shadow: 0 0 35px #00fff7ff; }
   }
 
   /* Services section */
@@ -162,50 +186,116 @@
   section.services h2 {
     text-align: center;
     color: #00fff7;
-    font-size: 2.8rem;
-    margin-bottom: 3rem;
+    font-size: 3rem;
+    margin-bottom: 3.5rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    user-select: none;
   }
   .service-list {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 2.5rem;
   }
   .service-item {
     background: #1b1e27;
-    border-radius: 20px;
-    padding: 2rem;
-    width: 280px;
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 300px;
     text-align: center;
-    box-shadow: 0 0 20px #00fff726;
-    transition: transform 0.3s ease;
+    box-shadow: 0 0 25px #00fff740;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
     cursor: default;
+    user-select: none;
   }
   .service-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 30px #00fff7cc;
+    transform: translateY(-15px);
+    box-shadow: 0 0 45px #00fff7cc;
   }
   .service-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.3rem;
     color: #00fff7;
     animation: iconGlow 3s infinite alternate ease-in-out;
   }
   @keyframes iconGlow {
-    0% { text-shadow: 0 0 10px #00fff7; }
-    100% { text-shadow: 0 0 25px #00fff7; }
+    0% { text-shadow: 0 0 15px #00fff7; }
+    100% { text-shadow: 0 0 40px #00fff7; }
   }
   .service-title {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 700;
-    margin-bottom: 0.7rem;
+    margin-bottom: 1rem;
+    user-select: text;
   }
   .service-desc {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #aaa;
-    line-height: 1.4;
+    line-height: 1.5;
+    user-select: text;
+  }
+
+  /* About section */
+  #about {
+    padding: 5rem 0;
+    color: #ccc;
+  }
+  #about h2 {
+    text-align: center;
+    color: #00fff7;
+    margin-bottom: 3rem;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    user-select: none;
+  }
+  #about p {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    line-height: 1.65;
+    font-size: 1.15rem;
+    user-select: text;
+  }
+  #about p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Contacts section */
+  #contacts {
+    padding: 3rem 0;
+    text-align: center;
+    user-select: none;
+  }
+  #contacts h2 {
+    color: #00fff7;
+    margin-bottom: 2rem;
+    font-size: 2.8rem;
+  }
+  #contacts p {
+    font-size: 1.15rem;
+    color: #ccc;
+    margin: 0.3rem 0;
+    user-select: text;
+  }
+  #contacts a {
+    color: #00fff7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  #contacts a:hover {
+    color: #00c4b7;
+  }
+  #contacts .socials {
+    margin-top: 1.2rem;
+  }
+  #contacts .socials a {
+    color: #00fff7;
+    margin: 0 0.7rem;
+    font-size: 2rem;
+    transition: color 0.3s ease;
+  }
+  #contacts .socials a:hover {
+    color: #00c4b7;
   }
 
   /* Footer */
@@ -222,13 +312,42 @@
   /* Scroll animations */
   .fade-in-section {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
   }
   .fade-in-section.is-visible {
     opacity: 1;
     transform: none;
   }
+
+  /* Additional tech shine animation for hero text */
+  .hero h1::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -30%;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00fff7, transparent);
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+    pointer-events: none;
+  }
+  @keyframes shine {
+    0% {
+      left: -30%;
+      opacity: 0.3;
+    }
+    50% {
+      left: 100%;
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0.3;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -236,7 +355,7 @@
 <header class="header">
   <div class="container header-container">
     <div class="logo" title="DESAN - Your IT partner">DESAN</div>
-    <nav class="menu">
+    <nav class="menu" role="navigation" aria-label="Главное меню">
       <a href="#services">Услуги</a>
       <a href="#about">О нас</a>
       <a href="#contacts">Контакты</a>
@@ -246,65 +365,68 @@
 
 <section class="hero">
   <h1>IT решения для бизнеса будущего</h1>
-  <p>Мы создаём Telegram и WhatsApp ботов с интеграцией CRM, делаем сайты любой сложности и внедряем cutting-edge технологии для вашего роста.</p>
+  <p>Мы создаём Telegram и WhatsApp ботов с глубокими интеграциями в CRM и бизнес-процессы, разрабатываем современные адаптивные сайты и внедряем cutting-edge технологии, включая машинное обучение, облачные инфраструктуры и кибербезопасность для вашего стабильного роста и цифровой трансформации.</p>
   <button class="btn-primary" onclick="alert('Свяжитесь с нами для бесплатной консультации!')">Связаться с нами</button>
 </section>
 
 <section id="services" class="services container fade-in-section">
   <h2>Наши услуги</h2>
   <div class="service-list">
-    <div class="service-item">
-      <div class="service-icon">🤖</div>
+    <div class="service-item" tabindex="0" aria-label="Telegram Боты">
+      <div class="service-icon" aria-hidden="true">🤖</div>
       <div class="service-title">Telegram Боты</div>
-      <div class="service-desc">Разработка умных Telegram-ботов для автоматизации бизнеса и поддержки клиентов.</div>
+      <div class="service-desc">Разработка интеллектуальных Telegram-ботов, способных автоматизировать сложные бизнес-процессы и обеспечивать мгновенную поддержку клиентов 24/7.</div>
     </div>
-    <div class="service-item">
-      <div class="service-icon">📱</div>
+    <div class="service-item" tabindex="0" aria-label="WhatsApp Боты">
+      <div class="service-icon" aria-hidden="true">📱</div>
       <div class="service-title">WhatsApp Боты</div>
-      <div class="service-desc">Интеграция WhatsApp ботов с CRM и сервисами для продаж и поддержки.</div>
+      <div class="service-desc">Интеграция WhatsApp ботов с CRM и бизнес-системами для эффективного взаимодействия с клиентами и увеличения продаж.</div>
     </div>
-    <div class="service-item">
-      <div class="service-icon">💻</div>
+    <div class="service-item" tabindex="0" aria-label="Веб-разработка">
+      <div class="service-icon" aria-hidden="true">💻</div>
       <div class="service-title">Веб-разработка</div>
-      <div class="service-desc">Создание стильных, адаптивных сайтов с современным UI/UX и анимациями.</div>
+      <div class="service-desc">Создание стильных, адаптивных и высокопроизводительных сайтов и веб-приложений с инновационным дизайном и плавными анимациями.</div>
     </div>
-    <div class="service-item">
-      <div class="service-icon">⚙️</div>
+    <div class="service-item" tabindex="0" aria-label="CRM Интеграции">
+      <div class="service-icon" aria-hidden="true">⚙️</div>
       <div class="service-title">CRM Интеграции</div>
-      <div class="service-desc">Автоматизация и интеграция с системами управления клиентами и продажами.</div>
+      <div class="service-desc">Автоматизация бизнес-процессов через интеграцию с CRM-системами, обеспечивающая контроль и рост продаж.</div>
     </div>
-    <div class="service-item">
-      <div class="service-icon">☁️</div>
+    <div class="service-item" tabindex="0" aria-label="Облачные решения">
+      <div class="service-icon" aria-hidden="true">☁️</div>
       <div class="service-title">Облачные решения</div>
-      <div class="service-desc">Развертывание и поддержка инфраструктуры в облаках для масштабируемости.</div>
+      <div class="service-desc">Проектирование, развертывание и поддержка масштабируемой облачной инфраструктуры для надежности и гибкости.</div>
     </div>
-    <div class="service-item">
-      <div class="service-icon">🔐</div>
+    <div class="service-item" tabindex="0" aria-label="Кибербезопасность">
+      <div class="service-icon" aria-hidden="true">🔐</div>
       <div class="service-title">Кибербезопасность</div>
-      <div class="service-desc">Защита данных и обеспечение безопасности ваших проектов и сервисов.</div>
+      <div class="service-desc">Комплексные меры защиты данных и сервисов для предотвращения угроз и обеспечения конфиденциальности.</div>
     </div>
   </div>
 </section>
 
-<section id="about" class="container fade-in-section" style="padding: 5rem 0; color:#ccc;">
-  <h2 style="text-align:center; color:#00fff7; margin-bottom: 2rem;">О компании DESAN</h2>
-  <p style="max-width: 900px; margin: 0 auto; line-height: 1.6; font-size: 1.1rem;">
-    DESAN — команда профессионалов в области IT-разработки, специализирующаяся на создании уникальных цифровых решений для бизнеса. Мы объединяем последние технологии и креатив, чтобы ваши проекты были не просто современными, а революционными.
+<section id="about" class="container fade-in-section">
+  <h2>О компании DESAN</h2>
+  <p>
+    DESAN — это команда инженеров, дизайнеров и аналитиков, объединившихся с целью создать инновационные цифровые решения, меняющие правила игры в бизнесе. Мы не просто разрабатываем — мы строим экосистемы, которые облегчают работу, повышают прибыль и делают бизнес устойчивым к вызовам будущего.
   </p>
-  <p style="max-width: 900px; margin: 2rem auto 0; line-height: 1.6; font-size: 1.1rem;">
-    Наши ключевые направления: разработка Telegram и WhatsApp ботов, интеграция CRM, создание продвинутых веб-приложений, автоматизация процессов и внедрение облачных технологий.
+  <p>
+    Используя современные технологии машинного обучения, облачные платформы, API-интеграции и продвинутую аналитику, мы внедряем решения, которые работают на результат уже сегодня. Наша миссия — помочь вам внедрить автоматизацию и интеллектуальные системы, которые выводят ваш бизнес на новый уровень эффективности.
+  </p>
+  <p>
+    В DESAN мы ценим качество, безопасность и инновации, гарантируя, что каждый проект — это уникальное сочетание технологий и креативного подхода.
   </p>
 </section>
 
-<section id="contacts" class="container fade-in-section" style="padding: 3rem 0; text-align:center;">
-  <h2 style="color:#00fff7; margin-bottom: 1.5rem;">Свяжитесь с нами</h2>
-  <p>📧 <a href="mailto:info@desan.tech" style="color:#00fff7;">info@desan.tech</a></p>
+<section id="contacts" class="container fade-in-section">
+  <h2>Свяжитесь с нами</h2>
+  <p>📧 <a href="mailto:info@desan.tech" aria-label="Отправить письмо на info@desan.tech">info@desan.tech</a></p>
   <p>📞 +7 (777) 123-45-67</p>
-  <p>🌐 www.desan.tech</p>
-  <div style="margin-top: 1rem;">
-    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">🐦</a>
-    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">💬</a>
-    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">📱</a>
+  <p>🌐 <a href="https://www.desan.tech" target="_blank" rel="noopener" aria-label="Перейти на сайт www.desan.tech">www.desan.tech</a></p>
+  <div class="socials" aria-label="Социальные сети">
+    <a href="#" aria-label="Твиттер" title="Twitter">🐦</a>
+    <a href="#" aria-label="Telegram" title="Telegram">💬</a>
+    <a href="#" aria-label="WhatsApp" title="WhatsApp">📱</a>
   </div>
 </section>
 
