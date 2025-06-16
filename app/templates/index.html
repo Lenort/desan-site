@@ -28,8 +28,8 @@
       position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
     }
     canvas.bg { z-index:0; filter:brightness(0.4); }
-    canvas.fg { z-index:2; mix-blend-mode:screen; opacity:0.15; animation:fgPulse 14s infinite alternate; }
-    canvas.sub{ z-index:2; mix-blend-mode:overlay; opacity:0.1; animation:fgPulse 14s infinite alternate; }
+    canvas.fg { z-index:2; mix-blend-mode:screen; opacity:0.15; animation:fgPulse 20s infinite alternate; }
+    canvas.sub{ z-index:2; mix-blend-mode:overlay; opacity:0.1; animation:fgPulse 20s infinite alternate; }
     @keyframes fgPulse { from{opacity:0.08;} to{opacity:0.2;} }
 
     /* LOGO */
@@ -44,13 +44,13 @@
     }
     header.header .logo span::before {
       content:'<>[{}]*/\\|=+-_?:;'; /* набор символов */
-      position:absolute; top:-300%; left:0;
+      position:absolute; top:-400%; left:0;
       white-space:nowrap; font-family:monospace; font-size:1rem;
-      color:rgba(0,255,247,0.2);
-      animation:logoRain 12s linear infinite;
+      color:rgba(255,255,255,0.1);
+      animation:logoRain 16s linear infinite;
     }
     @keyframes logoRain {
-      0%{transform:translateY(0);}100%{transform:translateY(300%);}
+      0%{transform:translateY(0);}100%{transform:translateY(400%);}
     }
 
     /* Subtitle */
@@ -84,21 +84,19 @@
       position:relative; background:#011b1d; border-radius:16px; padding:2rem;
       overflow:hidden; cursor:default; transition:box-shadow .3s;
     }
-    /* при hover — фоновые спец‑символы */
-    .service-item::before {
-      content:'<>[{}]*/\\'; position:absolute; top:0; left:0;
-      width:200%; height:200%; font-family:monospace; font-size:2rem;
-      color:rgba(0,255,138,0.05); pointer-events:none;
-      transform:translate(-50%,-50%) rotate(15deg);
-      opacity:0; transition:opacity .3s;
+    /* при hover — псевдокод */
+    .service-item::after {
+      content:'for(int i=0;i<'; position:absolute;
+      top:calc(30% + var(--rY)); left:calc(10% + var(--rX));
+      font-family:monospace; font-size:1rem; color:rgba(0,255,138,0.1);
+      opacity:0; transition:opacity .2s;
     }
-    .service-item:hover::before {
-      opacity:1; animation:svcSymbols 4s infinite linear;
+    .service-item:hover::after {
+      opacity:1; animation:codeFly 1s ease-out;
     }
-    @keyframes svcSymbols {
-      0%{transform:translate(-50%,-50%) rotate(15deg);}
-      50%{transform:translate(50%,50%) rotate(-15deg);}
-      100%{transform:translate(-50%,-50%) rotate(15deg);}
+    @keyframes codeFly {
+      0%{transform:translate(0,0);opacity:1;}
+      100%{transform:translate(20px,-20px);opacity:0;}
     }
     .service-item:hover {
       box-shadow:0 12px 36px rgba(0,255,138,0.5);
@@ -206,14 +204,14 @@
 <footer class="footer">&copy; 2025 DESAN. Все права защищены.</footer>
 
 <script>
-  // MATRIX EFFECT (очень медленное падение)
+  // MATRIX EFFECT (очень медленное падение, столбиками по 10–15 символов)
   const bg = document.querySelector('canvas.bg'),
         fg = document.querySelector('canvas.fg'),
         sub = document.querySelector('canvas.sub'),
         ctxBg = bg.getContext('2d'),
         ctxFg = fg.getContext('2d'),
         ctxSub= sub.getContext('2d');
-  let w,h,cols,drops;
+  let w,h,cols,drops, lengths;
   const size=16, c0=[0,255,247], c1=[0,255,16];
 
   function lerp(a,b,t){return a.map((v,i)=>v+(b[i]-v)*t);}
@@ -223,6 +221,7 @@
     sub.width=w; sub.height=60;
     cols=Math.floor(w/size);
     drops=Array(cols).fill(0).map(()=>Math.random()*h/size);
+    lengths=Array(cols).fill(0).map(()=>10+Math.floor(Math.random()*6));
   }
 
   function drawMatrix(ctx,height,invert=false){
@@ -230,16 +229,22 @@
     ctx.fillRect(0,0,w,height);
     ctx.font=`${size}px monospace`;
     drops.forEach((d,i)=>{
-      const t=Math.min(Math.max(d/(height/size),0),1),
-            [r,g,b]=lerp(c0,c1,t),
-            ch=Math.random()>0.5?'0':'1';
-      ctx.fillStyle=invert
-        ?`rgba(${255-r},${255-g},${255-b},0.3)`
-        :`rgba(${r},${g},${b},0.7)`;
-      ctx.fillText(ch,i*size,d*size);
-      // очень медленное падение
-      drops[i]+=0.05+Math.random()*0.02;
-      if(drops[i]*size>height&&Math.random()>0.995)drops[i]=0;
+      const len = lengths[i];
+      for(let k=0;k<len;k++){
+        const pos = d - k;
+        if(pos<=0) continue;
+        const t=Math.min(Math.max(pos/(height/size),0),1),
+              [r,g,b]=lerp(c0,c1,t),
+              ch=Math.random()>0.5?'0':'1';
+        ctx.fillStyle=invert
+          ?`rgba(${255-r},${255-g},${255-b},${(len-k)/len*0.3})`
+          :`rgba(${r},${g},${b},${(len-k)/len*0.7})`;
+        ctx.fillText(ch,i*size,pos*size);
+      }
+      drops[i]+=0.02+Math.random()*0.01; // ещё медленнее
+      if(drops[i]*size>height+len*size && Math.random()>0.995){
+        drops[i]=0; lengths[i]=10+Math.floor(Math.random()*6);
+      }
     });
   }
 
@@ -268,13 +273,9 @@
           orig=spans[i].textContent,
           s=syms[Math.floor(Math.random()*syms.length)];
     spans[i].textContent=s;
-    spans[i].setAttribute('data-char',s);
-    spans[i].style.color='#00ff8a';
     setTimeout(()=>{
       spans[i].textContent=orig;
-      spans[i].setAttribute('data-char','');
-      spans[i].style.color='#fff';
-    },200);
+    },150);
   },2000);
 </script>
 
