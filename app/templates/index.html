@@ -5,128 +5,173 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DESAN — IT Solutions & Bots</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0e0f14; color: #eee; overflow-x: hidden; }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Matrix background */
-    .matrix-bg {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 0;
-      background: black;
-      overflow: hidden;
-    }
-    canvas.matrix-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
+    body {
+      background: #0e0f14;
+      color: #eee;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Header */
+    /* ========== HEADER ========== */
     header.header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 90px;
-      background: rgba(14, 15, 20, 0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid #222;
-      z-index: 1000;
-      box-shadow: 0 0 15px #00fff7aa;
+      height: 100vh;
+      background: black;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      color: #00fff7;
+      z-index: 1000;
+      user-select: none;
     }
 
-    .logo {
-      font-weight: 900;
-      font-size: 2.4rem;
-      color: #00fff7;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      animation: flicker 3s infinite ease-in-out;
-      z-index: 2;
-      position: relative;
-      user-select: none;
+    /* Матрица фон */
+    canvas.matrix-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
       pointer-events: none;
     }
 
-    @keyframes flicker {
-      0%, 100% {opacity: 1; text-shadow: 0 0 12px #00fff7;}
-      50% {opacity: 0.6; text-shadow: 0 0 25px #00fff7, 0 0 40px #00ffff;}
-    }
-
-    /* Hero section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-top: 6rem;
-      text-align: center;
-      background: linear-gradient(135deg, #02030a 0%, #0e0f14 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero h1 {
-      font-size: 3.2rem;
+    /* Логотип */
+    .logo {
       font-weight: 900;
-      color: #00fff7;
-      margin-bottom: 1.2rem;
+      font-size: 4rem;
+      letter-spacing: 5px;
       text-transform: uppercase;
-      filter: drop-shadow(0 0 12px #00fff7);
-      animation: slideInTop 1s ease forwards;
+      text-shadow:
+        0 0 10px #00fff7,
+        0 0 20px #00fff7,
+        0 0 30px #00fff7,
+        0 0 40px #00fff7;
+      animation: flicker 4s infinite ease-in-out;
       position: relative;
       z-index: 1;
+      user-select: none;
     }
 
-    @keyframes slideInTop {
-      0% { opacity: 0; transform: translateY(-50px); }
-      100% { opacity: 1; transform: translateY(0); }
+    @keyframes flicker {
+      0%, 100% {opacity: 1; text-shadow: 0 0 10px #00fff7, 0 0 30px #00fff7;}
+      50% {opacity: 0.7; text-shadow: 0 0 25px #00fff7, 0 0 45px #00fff7;}
     }
 
-    .hero p {
-      font-size: 1.3rem;
+    /* Заголовок под логотипом */
+    .header-subtitle {
+      margin-top: 1rem;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #33fff7cc;
+      text-shadow: 0 0 6px #00fff7aa;
+      animation: slideUpFadeIn 1.5s ease forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
+      user-select: none;
+    }
+
+    @keyframes slideUpFadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      padding: 120px 20px 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Второй блок */
+    .about {
+      margin-top: 2rem;
       color: #ccc;
-      margin-bottom: 2.5rem;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-      animation: fadeIn 1.7s ease forwards;
+      font-size: 1.2rem;
       line-height: 1.6;
-      z-index: 1;
-      position: relative;
+      animation: fadeInUp 1.5s ease forwards;
+      opacity: 0;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
+    /* Список услуг */
+    .services {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.8rem;
+    }
+
+    .service-item {
+      background: #011116;
+      border-radius: 12px;
+      padding: 20px 25px;
+      width: 280px;
+      box-shadow:
+        0 0 10px #00fff799,
+        0 0 15px #00fff744 inset;
+      color: #00fff7;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+      cursor: default;
+      user-select: none;
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .service-item:hover {
+      transform: translateY(-8px);
+      box-shadow:
+        0 0 20px #00fff7cc,
+        0 0 30px #00fff7cc inset;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 10px #00fff799,
+          0 0 15px #00fff744 inset;
+      }
+      50% {
+        box-shadow:
+          0 0 25px #00fff7cc,
+          0 0 40px #00fff7cc inset;
+      }
+    }
+
+    /* Кнопка */
     .btn-primary {
+      margin-top: 3rem;
       background: #00fff7;
       color: #0e0f14;
       font-weight: 700;
-      padding: 1rem 3rem;
+      padding: 0.75rem 2.5rem;
       border-radius: 50px;
       border: none;
       cursor: pointer;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       letter-spacing: 1.5px;
       box-shadow: 0 0 18px #00fff7cc;
-      transition: background 0.3s ease, transform 0.25s ease;
+      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+      user-select: none;
       animation: pulse 2.7s infinite;
-      z-index: 1;
-      position: relative;
+      display: inline-block;
     }
 
     .btn-primary:hover {
@@ -139,108 +184,106 @@
       0%, 100% { box-shadow: 0 0 18px #00fff7cc; }
       50% { box-shadow: 0 0 35px #00fff7ff; }
     }
+
+    /* Адаптив */
+    @media (max-width: 700px) {
+      .services {
+        flex-direction: column;
+        align-items: center;
+      }
+      .service-item {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 <body>
 
-<header style="position: relative; height: 100vh; overflow: hidden; background: black; color: white;">
-  <!-- Анимация "Матрица" -->
-  <canvas id="matrix-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></canvas>
-
-  <!-- Контент поверх -->
-  <div style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: bold;">DESAN</h1>
-    <p style="font-size: 1.5rem;">Будущее начинается здесь</p>
-  </div>
-
-  <script>
-    // Матрица-анимация
-    const canvas = document.getElementById("matrix-canvas");
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const letters = "01";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-
-    const drops = Array.from({ length: columns }).fill(1);
-
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 33);
-
-    // Обновление размера при ресайзе окна
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  </script>
+<header class="header">
+  <canvas class="matrix-canvas"></canvas>
+  <div class="logo">DESAN</div>
+  <div class="header-subtitle">Будущее начинается здесь</div>
 </header>
 
+<main>
+  <section class="about">
+    <p>
+      Компания DESAN — эксперты в создании современных цифровых решений. Мы разрабатываем сайты любой сложности,
+      продвинутые Telegram-боты и WhatsApp-боты с интеграцией CRM-систем, а также автоматизируем бизнес-процессы
+      с помощью искусственного интеллекта и облачных сервисов.
+    </p>
+  </section>
 
-<section class="hero">
-  <h1>Будущее начинается здесь</h1>
-  <p>Инновационные IT-решения, интеллектуальные боты и веб-системы от команды DESAN.</p>
+  <section class="services" aria-label="Наши услуги">
+    <div class="service-item" title="Сайты любой сложности">
+      Создание сайтов любой сложности: от лендингов до крупных корпоративных порталов.
+    </div>
+    <div class="service-item" title="Telegram-боты">
+      Разработка продвинутых Telegram-ботов с интеграцией и автоматизацией.
+    </div>
+    <div class="service-item" title="WhatsApp-боты">
+      Создание WhatsApp-ботов с поддержкой CRM и обработкой заявок.
+    </div>
+    <div class="service-item" title="AI и автоматизация">
+      Внедрение искусственного интеллекта для повышения эффективности бизнеса.
+    </div>
+    <div class="service-item" title="Облачные решения">
+      Использование облачных сервисов для масштабируемых и надежных систем.
+    </div>
+  </section>
+
   <button class="btn-primary" onclick="alert('Свяжитесь с нами для консультации')">Связаться</button>
-</section>
+</main>
 
 <script>
-  // Matrix animation
+  // Матрица-анимация в шапке
   const canvas = document.querySelector('.matrix-canvas');
   const ctx = canvas.getContext('2d');
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  let width, height;
+  let fontSize = 16;
+  let columns;
+  let drops;
 
-  const letters = '01';
-  const fontSize = 16;
-  const columns = canvas.width / fontSize;
-  const drops = Array(Math.floor(columns)).fill(1);
+  function init() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
 
-  function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    columns = Math.floor(width / fontSize);
+    drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = Math.random() * height;
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, width, height);
 
     ctx.fillStyle = '#00fff7';
     ctx.font = fontSize + 'px monospace';
 
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters[Math.floor(Math.random() * letters.length)];
+    for(let i = 0; i < drops.length; i++) {
+      const text = Math.random() > 0.5 ? '0' : '1';
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
+      if(drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
 
-      drops[i]++;
+      drops[i] += 0.75; // скорость падения (плавнее)
     }
   }
 
-  setInterval(drawMatrix, 35);
+  function loop() {
+    draw();
+    requestAnimationFrame(loop);
+  }
 
-  // Обновление размера canvas при ресайзе
   window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    init();
   });
+
+  init();
+  loop();
 </script>
 
 </body>
