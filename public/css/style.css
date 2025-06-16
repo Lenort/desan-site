@@ -1,0 +1,79 @@
+/* public/css/style.css */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f5f7fa;
+    overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+/* Шапка */
+.header {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #3a3a5e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.logo {
+    font-size: 4rem;
+    color: #fff;
+    animation: glow 3s ease-in-out infinite;
+}
+@keyframes glow {
+    0%,100% { text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff; }
+    50%   { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
+}
+
+/* Плавающие объекты */
+.floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+    0%   { transform: translateY(0) translateX(0); }
+    50%  { transform: translateY(-20px) translateX(30px); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+/* Секции услуг */
+.services {
+    padding: 4rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.service-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(50px);
+    opacity: 0;
+    animation: slideInUp 0.8s forwards;
+}
+.service-card:nth-child(1) { animation-delay: 0.2s; }
+.service-card:nth-child(2) { animation-delay: 0.4s; }
+.service-card:nth-child(3) { animation-delay: 0.6s; }
+.service-card:nth-child(4) { animation-delay: 0.8s; }
+@keyframes slideInUp {
+    to { transform: translateY(0); opacity: 1; }
+}
+.service-icon { font-size: 3rem; margin-bottom: 1rem; color: #6c63ff; }
+.service-title { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.service-desc  { color: #555; line-height: 1.4; }
+
+/* Появление при скролле */
+.scroll-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.6s ease-out;
+}
+.scroll-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
