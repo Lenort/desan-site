@@ -17,101 +17,146 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 140px; /* под шапку */
     }
 
     /* ========== HEADER ========== */
     header.header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 100vh;
-      background: black;
-      overflow: hidden;
+      height: 120px;
+      background: #0e0f14cc;
+      backdrop-filter: saturate(180%) blur(10px);
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      color: #00fff7;
-      z-index: 1000;
+      color: white;
+      z-index: 10000;
       user-select: none;
-    }
-
-    /* Матрица фон */
-    canvas.matrix-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0,255,247,0.2);
     }
 
     /* Логотип */
     .logo {
       font-weight: 900;
-      font-size: 4rem;
-      letter-spacing: 5px;
+      font-size: 3.8rem;
+      letter-spacing: 7px;
+      color: #fff;
       text-transform: uppercase;
       text-shadow:
-        0 0 10px #00fff7,
-        0 0 20px #00fff7,
-        0 0 30px #00fff7,
-        0 0 40px #00fff7;
-      animation: flicker 4s infinite ease-in-out;
-      position: relative;
-      z-index: 1;
+        0 0 15px #00fff7,
+        0 0 30px #00ff8a,
+        0 0 40px #00ff4c,
+        0 0 50px #00ff10;
+      animation: logoGlow 3.5s ease-in-out infinite alternate;
+      cursor: default;
       user-select: none;
+      position: relative;
     }
 
-    @keyframes flicker {
-      0%, 100% {opacity: 1; text-shadow: 0 0 10px #00fff7, 0 0 30px #00fff7;}
-      50% {opacity: 0.7; text-shadow: 0 0 25px #00fff7, 0 0 45px #00fff7;}
+    @keyframes logoGlow {
+      0% {
+        text-shadow:
+          0 0 15px #00fff7,
+          0 0 30px #00ff8a,
+          0 0 40px #00ff4c,
+          0 0 50px #00ff10;
+        color: #fff;
+        transform: scale(1);
+      }
+      50% {
+        text-shadow:
+          0 0 40px #00fff7,
+          0 0 70px #00ff8a,
+          0 0 90px #00ff4c,
+          0 0 110px #00ff10;
+        color: #e0ffe0;
+        transform: scale(1.05);
+      }
+      100% {
+        text-shadow:
+          0 0 15px #00fff7,
+          0 0 30px #00ff8a,
+          0 0 40px #00ff4c,
+          0 0 50px #00ff10;
+        color: #fff;
+        transform: scale(1);
+      }
     }
 
-    /* Заголовок под логотипом */
+    /* Подзаголовок в шапке */
     .header-subtitle {
-      margin-top: 1rem;
-      font-size: 1.7rem;
+      position: absolute;
+      bottom: 8px;
       font-weight: 600;
-      color: #33fff7cc;
-      text-shadow: 0 0 6px #00fff7aa;
-      animation: slideUpFadeIn 1.5s ease forwards;
-      opacity: 0;
-      position: relative;
-      z-index: 1;
+      font-size: 1.1rem;
+      color: #00ff9eaa;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 5px #00ff9e99;
       user-select: none;
+      animation: subtitleFadeIn 2.5s ease forwards;
+      opacity: 0;
     }
 
-    @keyframes slideUpFadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+    @keyframes subtitleFadeIn {
+      to {opacity: 1;}
+    }
+
+    /* ========== MATRIX CANVAS ========== */
+    canvas.matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: transparent;
+      filter: brightness(0.85);
     }
 
     /* ========== MAIN CONTENT ========== */
     main {
-      padding: 120px 20px 60px;
-      max-width: 1000px;
-      margin: 0 auto;
+      max-width: 1080px;
+      width: 90vw;
       text-align: center;
-    }
-
-    /* Второй блок */
-    .about {
-      margin-top: 2rem;
       color: #ccc;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      animation: fadeInUp 1.5s ease forwards;
+      user-select: none;
+    }
+
+    main section {
+      margin-bottom: 3.5rem;
       opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1.6s forwards;
+    }
+    main section:nth-child(1) { animation-delay: 0.5s;}
+    main section:nth-child(2) { animation-delay: 1.1s;}
+    main section:nth-child(3) { animation-delay: 1.7s;}
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
+    /* Текст блока about */
+    .about p {
+      font-size: 1.25rem;
+      line-height: 1.65;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #b8f9e0cc;
+      text-shadow: 0 0 10px #00ff9eaa;
     }
 
-    /* Список услуг */
+    /* Блок услуг */
     .services {
-      margin-top: 2.5rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -119,74 +164,109 @@
     }
 
     .service-item {
-      background: #011116;
-      border-radius: 12px;
-      padding: 20px 25px;
-      width: 280px;
+      background: #011b1d;
+      border-radius: 16px;
+      padding: 25px 30px;
+      width: 300px;
       box-shadow:
-        0 0 10px #00fff799,
-        0 0 15px #00fff744 inset;
-      color: #00fff7;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: transform 0.3s ease;
+        0 0 20px #00ff8a88,
+        0 0 35px #00ff8a44 inset;
+      color: #00ffa0;
+      font-weight: 700;
+      font-size: 1.15rem;
       cursor: default;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1),
+                  box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
       user-select: none;
-      animation: glowPulse 3s infinite ease-in-out;
+      animation: glowPulse 4s ease-in-out infinite;
     }
-
+    .service-item::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -45%;
+      width: 200%;
+      height: 220%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.25),
+        transparent
+      );
+      transform: rotate(25deg);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
     .service-item:hover {
-      transform: translateY(-8px);
+      transform: translateY(-10px);
       box-shadow:
-        0 0 20px #00fff7cc,
-        0 0 30px #00fff7cc inset;
+        0 0 35px #00ffb5cc,
+        0 0 60px #00ffb5cc inset;
+    }
+    .service-item:hover::before {
+      opacity: 1;
+      animation: shineSlide 1.5s forwards;
     }
 
     @keyframes glowPulse {
       0%, 100% {
         box-shadow:
-          0 0 10px #00fff799,
-          0 0 15px #00fff744 inset;
+          0 0 20px #00ff8a88,
+          0 0 35px #00ff8a44 inset;
       }
       50% {
         box-shadow:
-          0 0 25px #00fff7cc,
-          0 0 40px #00fff7cc inset;
+          0 0 40px #00ffcccc,
+          0 0 60px #00ffcc88 inset;
       }
+    }
+
+    @keyframes shineSlide {
+      0% { transform: translateX(-150%) rotate(25deg); opacity: 0;}
+      50% { opacity: 1;}
+      100% { transform: translateX(150%) rotate(25deg); opacity: 0;}
     }
 
     /* Кнопка */
     .btn-primary {
-      margin-top: 3rem;
-      background: #00fff7;
+      margin: 0 auto 5rem auto;
+      background: linear-gradient(90deg, #00fff7, #00ff8a);
       color: #0e0f14;
-      font-weight: 700;
-      padding: 0.75rem 2.5rem;
+      font-weight: 800;
+      padding: 0.9rem 3rem;
       border-radius: 50px;
       border: none;
       cursor: pointer;
-      font-size: 1.1rem;
-      letter-spacing: 1.5px;
-      box-shadow: 0 0 18px #00fff7cc;
-      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      box-shadow: 0 0 30px #00ffa0cc;
+      transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
-      animation: pulse 2.7s infinite;
       display: inline-block;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px #00ffa0aa;
+      animation: btnPulse 2.5s infinite ease-in-out;
     }
-
     .btn-primary:hover {
-      background: #00c4b7;
-      transform: scale(1.08);
-      box-shadow: 0 0 40px #00fff7ff;
+      background: linear-gradient(90deg, #00ccaf, #00ff97);
+      transform: scale(1.1);
+      box-shadow: 0 0 55px #00ff9eff;
     }
 
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 18px #00fff7cc; }
-      50% { box-shadow: 0 0 35px #00fff7ff; }
+    @keyframes btnPulse {
+      0%, 100% {
+        box-shadow: 0 0 30px #00ffa0cc;
+      }
+      50% {
+        box-shadow: 0 0 60px #00ffbeff;
+      }
     }
 
     /* Адаптив */
-    @media (max-width: 700px) {
+    @media (max-width: 720px) {
       .services {
         flex-direction: column;
         align-items: center;
@@ -194,82 +274,122 @@
       .service-item {
         width: 90%;
       }
+      .logo {
+        font-size: 3rem;
+        letter-spacing: 4px;
+      }
+      .header-subtitle {
+        font-size: 0.9rem;
+        bottom: 6px;
+      }
     }
   </style>
 </head>
 <body>
 
-<header class="header">
-  <canvas class="matrix-canvas"></canvas>
-  <div class="logo">DESAN</div>
+<header class="header" role="banner" aria-label="Шапка сайта">
+  <canvas class="matrix-canvas" aria-hidden="true"></canvas>
+  <div class="logo" aria-label="Логотип компании DESAN">DESAN</div>
   <div class="header-subtitle">Будущее начинается здесь</div>
 </header>
 
-<main>
-  <section class="about">
+<main role="main" aria-labelledby="main-title">
+
+  <section class="about" id="main-title" tabindex="-1">
     <p>
-      Компания DESAN — эксперты в создании современных цифровых решений. Мы разрабатываем сайты любой сложности,
-      продвинутые Telegram-боты и WhatsApp-боты с интеграцией CRM-систем, а также автоматизируем бизнес-процессы
-      с помощью искусственного интеллекта и облачных сервисов.
+      Компания DESAN — эксперты в создании современных цифровых решений.
+      Мы делаем сайты любой сложности, создаём и распространяем продвинутые Telegram-боты,
+      разрабатываем WhatsApp-боты с интеграцией CRM-систем,
+      внедряем искусственный интеллект для автоматизации бизнеса,
+      обеспечиваем надёжные облачные решения и масштабируемые сервисы.
     </p>
   </section>
 
   <section class="services" aria-label="Наши услуги">
     <div class="service-item" title="Сайты любой сложности">
-      Создание сайтов любой сложности: от лендингов до крупных корпоративных порталов.
+      Создание сайтов любой сложности: от лендингов до корпоративных порталов и интернет-магазинов.
     </div>
     <div class="service-item" title="Telegram-боты">
-      Разработка продвинутых Telegram-ботов с интеграцией и автоматизацией.
+      Разработка продвинутых Telegram-ботов с интеграцией и автоматизацией бизнес-процессов.
     </div>
     <div class="service-item" title="WhatsApp-боты">
-      Создание WhatsApp-ботов с поддержкой CRM и обработкой заявок.
+      Создание WhatsApp-ботов с поддержкой CRM и обработкой заявок в режиме реального времени.
     </div>
-    <div class="service-item" title="AI и автоматизация">
-      Внедрение искусственного интеллекта для повышения эффективности бизнеса.
+    <div class="service-item" title="Искусственный интеллект">
+      Внедрение AI и машинного обучения для повышения эффективности и аналитики.
     </div>
     <div class="service-item" title="Облачные решения">
-      Использование облачных сервисов для масштабируемых и надежных систем.
+      Надёжные и масштабируемые облачные решения на базе AWS, Google Cloud и Azure.
+    </div>
+    <div class="service-item" title="Автоматизация бизнес-процессов">
+      Оптимизация и автоматизация рутинных задач для роста бизнеса.
     </div>
   </section>
 
-  <button class="btn-primary" onclick="alert('Свяжитесь с нами для консультации')">Связаться</button>
+  <button class="btn-primary" type="button" aria-label="Связаться с компанией DESAN"
+          onclick="alert('Свяжитесь с нами для консультации')">Связаться</button>
+
 </main>
 
 <script>
-  // Матрица-анимация в шапке
+  // MATRIX EFFECT — плавное падение нулей и единиц с изменением цвета от голубого к зелёному
   const canvas = document.querySelector('.matrix-canvas');
   const ctx = canvas.getContext('2d');
 
   let width, height;
-  let fontSize = 16;
+  const fontSize = 18;
   let columns;
-  let drops;
+  let drops = [];
+
+  // Цвета для градиента текста (голубой к зелёному)
+  const colorStart = [0, 255, 247]; // #00fff7 - голубой
+  const colorEnd = [0, 255, 16];    // #00ff10 - зелёный
+
+  // Линейное смешение цветов
+  function lerpColor(start, end, t) {
+    return start.map((c, i) => Math.round(c + (end[i] - c) * t));
+  }
+  // RGB в CSS строку
+  function rgbToString(rgb) {
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  }
 
   function init() {
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-
     columns = Math.floor(width / fontSize);
     drops = [];
-    for(let x = 0; x < columns; x++) drops[x] = Math.random() * height;
+    for(let i = 0; i < columns; i++) {
+      drops[i] = Math.random() * height / fontSize;
+    }
   }
 
   function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillStyle = 'rgba(14,15,20, 0.12)';
     ctx.fillRect(0, 0, width, height);
 
-    ctx.fillStyle = '#00fff7';
     ctx.font = fontSize + 'px monospace';
 
     for(let i = 0; i < drops.length; i++) {
       const text = Math.random() > 0.5 ? '0' : '1';
+
+      // Нормализуем позицию для цвета (чем ниже — тем зеленее)
+      let t = drops[i] / (height / fontSize);
+      t = Math.min(Math.max(t, 0), 1);
+      let rgb = lerpColor(colorStart, colorEnd, t);
+
+      ctx.fillStyle = rgbToString(rgb);
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      if(drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+      // Плавная скорость падения, замедляем почти в 2 раза
+      drops[i] += 0.45 + Math.random() * 0.2;
 
-      drops[i] += 0.75; // скорость падения (плавнее)
+      // Возвращаем поток наверх с вероятностью и сбросом
+      if(drops[i] * fontSize > height && Math.random() > 0.98) {
+        drops[i] = 0;
+      }
     }
   }
 
@@ -278,9 +398,7 @@
     requestAnimationFrame(loop);
   }
 
-  window.addEventListener('resize', () => {
-    init();
-  });
+  window.addEventListener('resize', init);
 
   init();
   loop();
