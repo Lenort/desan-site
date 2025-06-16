@@ -22,7 +22,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 500px; /* под шапку 500px */
+      /* убираем padding-top, добавим margin у main */
     }
 
     /* ========== HEADER ========== */
@@ -42,6 +42,7 @@
       box-shadow: 0 2px 8px rgba(0,255,247,0.2);
       padding: 0 20px;
       text-align: center;
+      pointer-events: none; /* Чтобы клики проходили к элементам под шапкой */
     }
 
     /* Логотип - просто белый, без анимации */
@@ -55,6 +56,7 @@
       cursor: default;
       text-shadow: none;
       transform: none;
+      pointer-events: auto; /* Сделать кликабельным если нужно */
     }
 
     /* Подзаголовок */
@@ -65,6 +67,7 @@
       letter-spacing: 2px;
       user-select: none;
       margin-bottom: 16px;
+      pointer-events: auto;
     }
 
     /* Описание */
@@ -78,6 +81,7 @@
       user-select: none;
       opacity: 0.9;
       max-width: 900px;
+      pointer-events: auto;
     }
 
     /* ========== MATRIX CANVAS ========== */
@@ -98,6 +102,7 @@
       width: 90vw;
       color: #ccc;
       user-select: none;
+      margin-top: 520px; /* отступ под шапку + 20px запас */
       margin-bottom: 60px;
       text-align: center;
     }
@@ -147,7 +152,7 @@
       color: #fff; /* белый текст */
       font-weight: 700;
       font-size: 1.2rem;
-      cursor: pointer;
+      cursor: default;
       position: relative;
       user-select: none;
       box-shadow: none;
@@ -156,7 +161,17 @@
       transition: border-color 0.3s ease, color 0.3s ease;
     }
 
-    .service-item:hover {
+    /* Для эффекта глитча и переключения текста при прокрутке */
+    .service-item.glitch-start .glitch-text {
+      animation: glitchAnim 1.5s infinite;
+      color: #00ff8a;
+    }
+    .service-item.glitch-start {
+      border-color: #00ff8a;
+      color: #00ff8a;
+    }
+
+    .service-item.glitch-done {
       border-color: #00ff8a;
       color: #00ff8a;
     }
@@ -169,11 +184,12 @@
       line-height: 1.4;
       white-space: pre-wrap;
       user-select: none;
-      cursor: pointer;
+      cursor: default;
       color: inherit;
+      transition: opacity 0.3s ease;
     }
 
-    /* Скрытый блок с подробным описанием */
+    /* Второй текст (описание) появляется вместо глитча */
     .service-description {
       position: absolute;
       top: 50%;
@@ -186,7 +202,6 @@
       padding: 20px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.35s ease;
       user-select: text;
       max-height: 200px;
       overflow-y: auto;
@@ -194,19 +209,14 @@
       border-radius: 12px;
       text-align: center;
       width: 90%;
+      transition: opacity 0.5s ease;
     }
-
-    .service-item.active .service-description {
+    .service-item.show-desc .service-description {
       opacity: 1;
       pointer-events: auto;
     }
 
-    /* Глитч-анимация для текста при наведении */
-    .service-item.active .glitch-text {
-      color: #00ff8a;
-      animation: glitchAnim 1.5s infinite;
-    }
-
+    /* Глитч-анимация */
     @keyframes glitchAnim {
       0% {
         text-shadow:
@@ -309,8 +319,8 @@
         max-width: 320px;
         padding: 0 5px;
       }
-      body {
-        padding-top: 400px;
+      main {
+        margin-top: 420px;
       }
       canvas.matrix-canvas {
         height: 400px;
@@ -456,47 +466,42 @@
   init();
   loop();
 
-  // ======= Анимация глитча и раскрытия описания =======
+  // ======= Анимация глитча при скролле 1 раз =======
   const serviceItems = document.querySelectorAll('.service-item');
+  let glitchDone = false;
 
-  serviceItems.forEach(item => {
-    const glitchText = item.querySelector('.glitch-text');
-    const desc = item.querySelector('.service-description');
+  function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top < window.innerHeight &&
+      rect.bottom > 0
+    );
+  }
 
-    // При клике или клавише Enter/Space на блоке переключаем состояние
-    function toggleActive() {
-      const isActive = item.classList.contains('active');
-      serviceItems.forEach(i => {
-        i.classList.remove('active');
-        i.querySelector('.service-description').hidden = true;
-        i.setAttribute('aria-expanded', 'false');
-      });
+function handleScroll() {
+  if (glitchDone) return; // Если уже сработало — ничего не делаем
 
-      if (!isActive) {
-        item.classList.add('active');
-        desc.hidden = false;
-        item.setAttribute('aria-expanded', 'true');
-      } else {
-        desc.hidden = true;
-        item.setAttribute('aria-expanded', 'false');
-      }
+  for (const item of serviceItems) {
+    if (isElementInViewport(item)) {
+      glitchDone = true; // Отмечаем, что анимация уже была
+
+      // Добавляем класс для старта анимации глитча
+      item.classList.add('glitch-start');
+
+      // Через 1.5 секунды переключаем в состояние done — глитч перестаёт мигать
+      setTimeout(() => {
+        item.classList.remove('glitch-start');
+        item.classList.add('glitch-done');
+      }, 1500);
+
+      break; // Остановить перебор — анимация запущена для первого элемента
     }
+  }
+}
 
-    item.addEventListener('click', toggleActive);
-    item.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleActive();
-      }
-      if (e.key === 'Escape') {
-        item.classList.remove('active');
-        desc.hidden = true;
-        item.setAttribute('aria-expanded', 'false');
-      }
-    });
-  });
+// Навешиваем обработчик скролла
+window.addEventListener('scroll', handleScroll);
 
-</script>
+// Также запустим проверку сразу при загрузке страницы — если элемент уже виден
+window.addEventListener('load', handleScroll);
 
-</body>
-</html>
