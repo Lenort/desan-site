@@ -1,303 +1,338 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Desan - Современные туры</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-      color: #e1e4e8;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    a {
-      color: #ff6f61;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    a:hover {
-      color: #e95a4c;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DESAN — IT Solutions & Bots</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
-    /* --- HERO --- */
-    .hero {
-      padding: 6rem 2rem 8rem;
-      text-align: center;
-      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-    }
-    .hero-title {
-      font-size: 3.8rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-      color: #ff6f61;
-      animation: fadeInUp 1s ease forwards;
+  body {
+    background: #0e0f14;
+    color: #eee;
+    overflow-x: hidden;
+  }
+
+  /* Container */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  header.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(14, 15, 20, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #222;
+    z-index: 1000;
+  }
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+  }
+  .logo {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #00fff7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    cursor: default;
+  }
+  /* Logo flicker animation */
+  @keyframes flicker {
+    0%, 100% {opacity: 1; text-shadow: 0 0 8px #00fff7;}
+    50% {opacity: 0.6; text-shadow: 0 0 20px #00fff7, 0 0 30px #00ffff;}
+  }
+  .logo {
+    animation: flicker 3s infinite ease-in-out;
+  }
+
+  nav.menu {
+    display: flex;
+    gap: 2rem;
+  }
+  nav.menu a {
+    color: #aaa;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  nav.menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 100%; height: 2px;
+    background: #00fff7;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  nav.menu a:hover {
+    color: #00fff7;
+  }
+  nav.menu a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Hero section */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 5rem;
+    text-align: center;
+    background: linear-gradient(135deg, #02030a 0%, #0e0f14 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #00fff7;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    filter: drop-shadow(0 0 8px #00fff7);
+    animation: slideInTop 1s ease forwards;
+  }
+  @keyframes slideInTop {
+    0% {
       opacity: 0;
+      transform: translateY(-40px);
     }
-    .hero-subtitle {
-      font-size: 1.5rem;
-      margin-bottom: 2.5rem;
-      color: #9aa5b1;
-      animation: fadeInUp 1.3s ease forwards;
-      opacity: 0;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .btn-primary {
-      background: #ff6f61;
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 1rem 2.5rem;
-      font-size: 1.25rem;
-      border-radius: 40px;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(255,111,97,0.5);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 1.6s ease forwards;
-      opacity: 0;
-    }
-    .btn-primary:hover {
-      background: #e95a4c;
-      box-shadow: 0 8px 20px rgba(233, 90, 76, 0.7);
-    }
+  }
+  .hero p {
+    font-size: 1.3rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn 1.5s ease forwards;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  .btn-primary {
+    background: #00fff7;
+    color: #0e0f14;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 15px #00fff7aa;
+    transition: background 0.3s ease, transform 0.2s ease;
+    animation: pulse 2.5s infinite;
+  }
+  .btn-primary:hover {
+    background: #00c4b7;
+    transform: scale(1.05);
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 15px #00fff7aa; }
+    50% { box-shadow: 0 0 25px #00fff7ff; }
+  }
 
-    /* --- TOURS CAROUSEL --- */
-    .tours-section {
-      max-width: 1200px;
-      margin: -6rem auto 4rem;
-      padding: 0 1rem 4rem;
-      background: rgba(255 255 255 / 0.05);
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      animation: fadeIn 2s ease forwards;
-      opacity: 0;
-    }
-    .tours-section h2 {
-      color: #ff6f61;
-      font-weight: 800;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .carousel {
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-    }
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-    .tour-card {
-      background: #161b22;
-      border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-      margin-right: 20px;
-      min-width: 280px;
-      flex-shrink: 0;
-      cursor: pointer;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease;
-    }
-    .tour-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(255,111,97,0.7);
-    }
-    .tour-image {
-      height: 180px;
-      object-fit: cover;
-      width: 100%;
-      border-top-left-radius: 14px;
-      border-top-right-radius: 14px;
-      transition: transform 0.4s ease;
-    }
-    .tour-card:hover .tour-image {
-      transform: scale(1.1);
-    }
-    .tour-content {
-      padding: 1rem 1.25rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .tour-title {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: #ff6f61;
-      flex-grow: 0;
-    }
-    .tour-description {
-      font-size: 0.9rem;
-      color: #bbb;
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-    .tour-price {
-      font-weight: 700;
-      color: #ff6f61;
-      font-size: 1.1rem;
-    }
+  /* Services section */
+  section.services {
+    padding: 5rem 0 3rem;
+    background: #12151e;
+  }
+  section.services h2 {
+    text-align: center;
+    color: #00fff7;
+    font-size: 2.8rem;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .service-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .service-item {
+    background: #1b1e27;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 0 20px #00fff726;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+  .service-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px #00fff7cc;
+  }
+  .service-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: #00fff7;
+    animation: iconGlow 3s infinite alternate ease-in-out;
+  }
+  @keyframes iconGlow {
+    0% { text-shadow: 0 0 10px #00fff7; }
+    100% { text-shadow: 0 0 25px #00fff7; }
+  }
+  .service-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+  }
+  .service-desc {
+    font-size: 1rem;
+    color: #aaa;
+    line-height: 1.4;
+  }
 
-    /* Carousel nav */
-    .carousel-nav {
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .carousel-btn {
-      background: #ff6f61;
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 0.5rem 1rem;
-      margin: 0 0.5rem;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .carousel-btn:hover {
-      background: #e95a4c;
-    }
+  /* Footer */
+  footer {
+    background: #0e0f14;
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #222;
+    user-select: none;
+  }
 
-    /* --- FOOTER --- */
-    footer {
-      background: #0d1117;
-      padding: 2rem 1rem;
-      color: #9aa5b1;
-      text-align: center;
-      margin-top: auto;
-      font-size: 0.9rem;
-    }
-
-    /* --- Animations --- */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0 }
-      100% { opacity: 1 }
-    }
-
-    /* --- Responsive --- */
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      .hero-subtitle {
-        font-size: 1.1rem;
-      }
-      .btn-primary {
-        padding: 0.8rem 1.8rem;
-        font-size: 1rem;
-      }
-      .tours-section {
-        margin: -4rem 1rem 3rem;
-        padding-bottom: 3rem;
-      }
-      .tour-card {
-        min-width: 220px;
-      }
-    }
-  </style>
+  /* Scroll animations */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
 </head>
 <body>
 
-  <section class="hero">
-    <h1 class="hero-title">Путешествуй с комфортом вместе с Desan</h1>
-    <p class="hero-subtitle">Лучшие туры по Казахстану и миру для твоих незабываемых впечатлений</p>
-    <button class="btn-primary" onclick="scrollToTours()">Посмотреть туры</button>
-  </section>
+<header class="header">
+  <div class="container header-container">
+    <div class="logo" title="DESAN - Your IT partner">DESAN</div>
+    <nav class="menu">
+      <a href="#services">Услуги</a>
+      <a href="#about">О нас</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
 
-  <section class="tours-section" id="tours">
-    <h2>Популярные туры</h2>
-    <div class="carousel">
-      <div class="carousel-track" id="carousel-track">
-        <!-- Пример карточек туров. Заменяй на свои данные из backend -->
-        <div class="tour-card">
-          <img src="/static/images/tour1.jpg" alt="Тур в Алматы" class="tour-image" />
-          <div class="tour-content">
-            <h3 class="tour-title">Тур в Алматы</h3>
-            <p class="tour-description">Увлекательное путешествие в горы и природу Алматы.</p>
-            <div class="tour-price">от 25 000 ₸</div>
-          </div>
-        </div>
-        <div class="tour-card">
-          <img src="/static/images/tour2.jpg" alt="Круиз по Каспию" class="tour-image" />
-          <div class="tour-content">
-            <h3 class="tour-title">Круиз по Каспию</h3>
-            <p class="tour-description">Расслабляющий круиз с великолепными видами и комфортом.</p>
-            <div class="tour-price">от 40 000 ₸</div>
-          </div>
-        </div>
-        <div class="tour-card">
-          <img src="/static/images/tour3.jpg" alt="Экскурсия в Астану" class="tour-image" />
-          <div class="tour-content">
-            <h3 class="tour-title">Экскурсия в Астану</h3>
-            <p class="tour-description">Современная столица с интересной архитектурой и культурой.</p>
-            <div class="tour-price">от 15 000 ₸</div>
-          </div>
-        </div>
-        <!-- Можно добавлять сколько угодно -->
-      </div>
+<section class="hero">
+  <h1>IT решения для бизнеса будущего</h1>
+  <p>Мы создаём Telegram и WhatsApp ботов с интеграцией CRM, делаем сайты любой сложности и внедряем cutting-edge технологии для вашего роста.</p>
+  <button class="btn-primary" onclick="alert('Свяжитесь с нами для бесплатной консультации!')">Связаться с нами</button>
+</section>
+
+<section id="services" class="services container fade-in-section">
+  <h2>Наши услуги</h2>
+  <div class="service-list">
+    <div class="service-item">
+      <div class="service-icon">🤖</div>
+      <div class="service-title">Telegram Боты</div>
+      <div class="service-desc">Разработка умных Telegram-ботов для автоматизации бизнеса и поддержки клиентов.</div>
     </div>
-    <div class="carousel-nav">
-      <button class="carousel-btn" id="prevBtn">&#8592; Назад</button>
-      <button class="carousel-btn" id="nextBtn">Вперед &#8594;</button>
+    <div class="service-item">
+      <div class="service-icon">📱</div>
+      <div class="service-title">WhatsApp Боты</div>
+      <div class="service-desc">Интеграция WhatsApp ботов с CRM и сервисами для продаж и поддержки.</div>
     </div>
-  </section>
+    <div class="service-item">
+      <div class="service-icon">💻</div>
+      <div class="service-title">Веб-разработка</div>
+      <div class="service-desc">Создание стильных, адаптивных сайтов с современным UI/UX и анимациями.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">⚙️</div>
+      <div class="service-title">CRM Интеграции</div>
+      <div class="service-desc">Автоматизация и интеграция с системами управления клиентами и продажами.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">☁️</div>
+      <div class="service-title">Облачные решения</div>
+      <div class="service-desc">Развертывание и поддержка инфраструктуры в облаках для масштабируемости.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🔐</div>
+      <div class="service-title">Кибербезопасность</div>
+      <div class="service-desc">Защита данных и обеспечение безопасности ваших проектов и сервисов.</div>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    © 2025 Desan. Все права защищены.
-  </footer>
+<section id="about" class="container fade-in-section" style="padding: 5rem 0; color:#ccc;">
+  <h2 style="text-align:center; color:#00fff7; margin-bottom: 2rem;">О компании DESAN</h2>
+  <p style="max-width: 900px; margin: 0 auto; line-height: 1.6; font-size: 1.1rem;">
+    DESAN — команда профессионалов в области IT-разработки, специализирующаяся на создании уникальных цифровых решений для бизнеса. Мы объединяем последние технологии и креатив, чтобы ваши проекты были не просто современными, а революционными.
+  </p>
+  <p style="max-width: 900px; margin: 2rem auto 0; line-height: 1.6; font-size: 1.1rem;">
+    Наши ключевые направления: разработка Telegram и WhatsApp ботов, интеграция CRM, создание продвинутых веб-приложений, автоматизация процессов и внедрение облачных технологий.
+  </p>
+</section>
 
-  <script>
-    const track = document.getElementById('carousel-track');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let position = 0;
-    const cardWidth = 300; // ширина + margin-right примерно (280 + 20)
+<section id="contacts" class="container fade-in-section" style="padding: 3rem 0; text-align:center;">
+  <h2 style="color:#00fff7; margin-bottom: 1.5rem;">Свяжитесь с нами</h2>
+  <p>📧 <a href="mailto:info@desan.tech" style="color:#00fff7;">info@desan.tech</a></p>
+  <p>📞 +7 (777) 123-45-67</p>
+  <p>🌐 www.desan.tech</p>
+  <div style="margin-top: 1rem;">
+    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">🐦</a>
+    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">💬</a>
+    <a href="#" style="color:#00fff7; margin: 0 0.5rem; font-size: 1.8rem;">📱</a>
+  </div>
+</section>
 
-    prevBtn.addEventListener('click', () => {
-      position += cardWidth;
-      if (position > 0) position = -(track.scrollWidth - track.clientWidth);
-      track.style.transform = `translateX(${position}px)`;
+<footer>
+  © 2025 DESAN — Все права защищены
+</footer>
+
+<script>
+  // Плавное появление элементов при скролле
+  const faders = document.querySelectorAll('.fade-in-section');
+
+  const appearOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      appearOnScroll.unobserve(entry.target);
     });
+  }, appearOptions);
 
-    nextBtn.addEventListener('click', () => {
-      position -= cardWidth;
-      if (Math.abs(position) > (track.scrollWidth - track.clientWidth)) position = 0;
-      track.style.transform = `translateX(${position}px)`;
-    });
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+  });
+</script>
 
-    function scrollToTours() {
-      document.getElementById('tours').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // При загрузке плавно показываем все блоки (анимация)
-    window.addEventListener('load', () => {
-      document.querySelectorAll('.hero-title, .hero-subtitle, .btn-primary, .tours-section').forEach(el => {
-        el.style.opacity = 1;
-      });
-    });
-  </script>
 </body>
 </html>
