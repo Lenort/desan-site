@@ -5,50 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DESAN — IT Solutions & Bots</title>
   <style>
-    /* ========== RESET & FONT ========== */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Courier New', monospace; }
-    body { background:#0e0f14; color:#eee; overflow-x:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-    a { color:inherit; text-decoration:none; }
+    /* ========== RESET ========== */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:#0e0f14; color:#eee;
+      overflow-x:hidden;
+      font-family:'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none;}
+    h2{color:#00fff7;font-size:2.5rem;margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;}
 
     /* ========== HEADER ========== */
     header.header {
-      position: relative; width:100%; padding:4rem 1rem;
-      background:rgba(14,15,20,0.92); backdrop-filter:blur(10px);
+      position:relative; width:100%; padding:4rem 1rem;
+      background:rgba(14,15,20,0.94);backdrop-filter:blur(12px);
       text-align:center; overflow:hidden;
     }
+    /* два canvas для matrix */
     header.header canvas.bg,
     header.header canvas.fg {
-      position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;
+      position:absolute;top:0;left:0; width:100%;height:100%;pointer-events:none;
     }
-    canvas.bg { z-index:0; filter:brightness(0.5); }
+    canvas.bg { z-index:0; filter:brightness(0.4); }
     canvas.fg {
-      z-index:2; mix-blend-mode:screen; opacity:0.2;
-      animation:fgFade 8s infinite alternate;
+      z-index:2; mix-blend-mode:screen; opacity:0.15;
+      animation:fgPulse 10s infinite alternate;
     }
-    @keyframes fgFade { from{opacity:0.1;} to{opacity:0.3;} }
+    @keyframes fgPulse { from{opacity:0.1;} to{opacity:0.25;} }
 
+    /* шрифт логотипа — Courier New */
     header.header .logo {
       position:relative; z-index:3; display:inline-block;
-      font-size:7rem; font-weight:900; letter-spacing:12px;
-      color:#fff; margin-bottom:1rem; cursor:default;
+      font-family:'Courier New',monospace;
+      font-size:8rem; letter-spacing:14px; color:#fff;
+      margin-bottom:1rem;
     }
-    header.header .logo span { display:inline-block; position:relative; }
+    /* каждая буква */
+    header.header .logo span {
+      display:inline-block; position:relative;
+      transition:color .3s ease;
+    }
+    /* символы поверх букв */
     header.header .logo span::after {
-      content:attr(data-char); position:absolute; top:0; left:0;
-      color:rgba(0,255,247,0.15); mix-blend-mode:overlay;
-      opacity:0; transition:opacity .3s ease;
+      content:attr(data-char);
+      position:absolute;top:0;left:0;
+      color:rgba(0,255,247,0.2);
+      mix-blend-mode:overlay;opacity:0;
+      transition:opacity .3s ease;
     }
 
     header.header .header-subtitle {
       position:relative; z-index:3;
-      font-size:2.5rem; font-weight:600; margin-bottom:.5rem;
-      color:#00fff7;
+      font-size:3rem; font-weight:600; color:#00fff7;
     }
 
     @media(max-width:720px){
-      header.header { padding:2rem 1rem; }
-      header.header .logo { font-size:4rem; letter-spacing:6px; }
-      header.header .header-subtitle { font-size:1.8rem; }
+      header.header {padding:2rem 1rem;}
+      header.header .logo {font-size:4.5rem;letter-spacing:8px;}
+      header.header .header-subtitle{font-size:1.8rem;}
     }
 
     /* ========== MAIN ========== */
@@ -58,38 +74,40 @@
       transition:opacity .8s,transform .8s; margin-bottom:3rem;
     }
     section.visible { opacity:1; transform:translateY(0); }
-    h2 {
-      color:#00fff7; font-size:2.5rem; margin-bottom:1rem;
-      text-transform:uppercase; letter-spacing:2px;
+
+    /* ========== SERVICES (TABLE) ========== */
+    .services-table {
+      width:100%; border-collapse:collapse; margin-bottom:2rem;
     }
-
-    /* ========== SERVICES (TABLE LAYOUT) ========== */
-    .services-table { width:100%; border-collapse:collapse; margin-bottom:2rem; }
-    .services-table td { width:33%; padding:1rem; vertical-align:top; }
-
+    .services-table td {
+      width:33%; padding:1rem; vertical-align:top;
+    }
     .service-item {
       background:#011b1d; border-radius:16px; padding:2rem;
       overflow:hidden; cursor:pointer;
-      transition:transform .3s ease, box-shadow .3s ease;
+      transition:transform .3s ease,box-shadow .3s ease;
     }
     .service-item:hover {
-      transform:translateY(-10px);
-      box-shadow:0 10px 30px rgba(0,255,138,0.4);
+      transform:translateY(-8px);
+      box-shadow:0 12px 36px rgba(0,255,138,0.3);
     }
-    .service-item .icon { font-size:3rem; margin-bottom:.8rem; color:#00ff8a; }
-    .service-item .title { font-size:1.3rem; font-weight:700; margin-bottom:1rem; color:#fff; }
-
+    .service-item .icon {
+      font-size:3rem; margin-bottom:1rem; color:#00ff8a;
+    }
+    .service-item .title {
+      font-size:1.4rem; font-weight:700; margin-bottom:1rem; color:#fff;
+    }
     @keyframes glitch {
-      0%,100% { text-shadow:none; }
-      10% { text-shadow:2px 0 #00ff8a; }
-      20% { text-shadow:-2px 0 #00fff7; }
-      30% { text-shadow:2px 2px #00ff8a; }
-      40% { text-shadow:-2px -2px #00fff7; }
-      50% { text-shadow:2px -2px #00ff8a; }
-      60% { text-shadow:-2px 2px #00fff7; }
-      70% { text-shadow:2px 0 #00ff8a; }
-      80% { text-shadow:-2px 0 #00fff7; }
-      90% { text-shadow:none; }
+      0%,100%{text-shadow:none;}
+      10%{text-shadow:2px 0 #00ff8a;}
+      20%{text-shadow:-2px 0 #00fff7;}
+      30%{text-shadow:2px 2px #00ff8a;}
+      40%{text-shadow:-2px -2px #00fff7;}
+      50%{text-shadow:2px -2px #00ff8a;}
+      60%{text-shadow:-2px 2px #00fff7;}
+      70%{text-shadow:2px 0 #00ff8a;}
+      80%{text-shadow:-2px 0 #00fff7;}
+      90%{text-shadow:none;}
     }
     .service-item.active .title { animation:glitch 1.2s; }
 
@@ -99,7 +117,7 @@
     }
     .service-item.revealed .desc {
       max-height:200px; opacity:1; margin-top:1rem;
-      color:#00ff8a; font-size:1rem; line-height:1.4;
+      color:#00ff8a; font-size:1rem; line-height:1.5;
     }
 
     /* ========== ABOUT ========== */
@@ -108,32 +126,32 @@
       position:relative; overflow:hidden;
     }
     .about p::after {
-      content:'0101010101'; position:absolute; top:0; left:0;
-      width:100%; height:100%;
+      content:'0101010101';
+      position:absolute; top:0; left:0; width:100%; height:100%;
       color:rgba(0,255,247,0.05);
       font-family:monospace; font-size:1.5rem; white-space:nowrap;
       pointer-events:none;
-      animation:moveOverlay 12s linear infinite;
+      animation:overlayMove 14s linear infinite;
     }
-    @keyframes moveOverlay {
-      0% { transform:translate(0,0); }
-      100% { transform:translate(100px,100px); }
+    @keyframes overlayMove {
+      0%{transform:translate(0,0);}100%{transform:translate(120px,120px);}
     }
 
     /* ========== FEATURES ========== */
-    .features { margin-top:2rem; }
     .features-list {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:2rem;
+      gap:2rem; margin-top:2rem;
     }
     .feature-item {
       background:#122; border-radius:12px; padding:1.5rem;
-      transition:background .3s ease,transform .3s ease;
+      transition:transform .3s ease,background .3s ease;
     }
-    .feature-item:hover { background:#144; transform:scale(1.03); }
-    .feature-item h3 { color:#00ff8a; margin-bottom:.5rem; }
-    .feature-item p { color:#ccc; line-height:1.5; }
+    .feature-item:hover {
+      background:#144; transform:scale(1.04);
+    }
+    .feature-item h3{color:#00ff8a;margin-bottom:.5rem;}
+    .feature-item p{color:#ccc;line-height:1.5;}
 
     /* ========== BUTTON ========== */
     .btn-primary {
@@ -161,6 +179,7 @@
   <canvas class="matrix-canvas bg"></canvas>
   <canvas class="matrix-canvas fg"></canvas>
   <div class="logo" id="logo">
+    <!-- каждую букву оборачиваем в span -->
     <span>D</span><span>E</span><span>S</span><span>A</span><span>N</span>
   </div>
   <div class="header-subtitle">Будущее начинается здесь</div>
@@ -185,7 +204,7 @@
             <span class="icon">🤖</span>
             <span class="title">Telegram‑боты</span>
             <div id="desc2" class="desc">
-              Автоматизация бизнеса через интеллектуальные Telegram‑боты.
+              Автоматизация бизнес-процессов через интеллектуальные боты.
             </div>
           </div>
         </td>
@@ -194,7 +213,7 @@
             <span class="icon">💬</span>
             <span class="title">WhatsApp‑боты</span>
             <div id="desc3" class="desc">
-              Мгновенная поддержка и продажи через WhatsApp‑боты.
+              Мгновенная поддержка и продажи через WhatsApp-интерфейс.
             </div>
           </div>
         </td>
@@ -205,7 +224,7 @@
             <span class="icon">🧠</span>
             <span class="title">Искусственный интеллект</span>
             <div id="desc4" class="desc">
-              ML/AI решения для аналитики и автоматизации.
+              ML/AI решения для аналитики, прогнозов и автоматизации.
             </div>
           </div>
         </td>
@@ -223,7 +242,7 @@
             <span class="icon">⚙️</span>
             <span class="title">Интеграции CRM</span>
             <div id="desc6" class="desc">
-              Свяжем все системы в единую экосистему.
+              Свяжем все системы в единую экосистему для автоматизации.
             </div>
           </div>
         </td>
@@ -245,21 +264,23 @@
     <div class="features-list">
       <div class="feature-item">
         <h3>24/7 Техподдержка</h3>
-        <p>Круглосуточная поддержка для бесперебойной работы.</p>
+        <p>Круглосуточная поддержка для бесперебойной работы ваших сервисов.</p>
       </div>
       <div class="feature-item">
         <h3>Аналитика и отчёты</h3>
-        <p>Дашборды и метрики в реальном времени.</p>
+        <p>Дашборды и метрики в реальном времени для принятия решений.</p>
       </div>
       <div class="feature-item">
         <h3>UI/UX дизайн</h3>
-        <p>Эстетичные и удобные интерфейсы для пользователей.</p>
+        <p>Эстетичные и удобные интерфейсы для повышения конверсии.</p>
       </div>
     </div>
   </section>
 
   <div style="text-align:center">
-    <button class="btn-primary" onclick="alert('Спасибо за интерес!')">Связаться с нами</button>
+    <button class="btn-primary" onclick="alert('Спасибо за интерес!')">
+      Связаться с нами
+    </button>
   </div>
 </main>
 
@@ -271,10 +292,11 @@
   // MATRIX EFFECT
   const canvBg = document.querySelector('canvas.bg'),
         canvFg = document.querySelector('canvas.fg'),
-        ctxBg  = canvBg.getContext('2d'),
-        ctxFg  = canvFg.getContext('2d');
+        ctxBg   = canvBg.getContext('2d'),
+        ctxFg   = canvFg.getContext('2d');
   let w,h,cols,drops;
-  const size=18, c0=[0,255,247], c1=[0,255,16];
+  const size = 16, c0=[0,255,247], c1=[0,255,16];
+
   function lerp(a,b,t){ return a.map((v,i)=>v+(b[i]-v)*t); }
   function resize(){
     w=innerWidth; h=500;
@@ -284,19 +306,20 @@
   }
   function draw(){
     [ctxBg,ctxFg].forEach(ctx=>{
-      ctx.fillStyle='rgba(14,15,20,0.1)'; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='rgba(14,15,20,0.12)';
+      ctx.fillRect(0,0,w,h);
       ctx.font=`${size}px monospace`;
     });
     drops.forEach((d,i)=>{
-      const t=Math.min(Math.max(d/(h/size),0),1),
-            [r,g,b]=lerp(c0,c1,t),
+      const t = Math.min(Math.max(d/(h/size),0),1),
+            [r,g,b] = lerp(c0,c1,t),
             ch = Math.random()>0.5?'0':'1';
-      ctxBg.fillStyle=`rgba(${r},${g},${b},0.6)`;
+      ctxBg.fillStyle = `rgba(${r},${g},${b},0.7)`;
       ctxBg.fillText(ch, i*size, d*size);
-      ctxFg.fillStyle=`rgba(${255-r},${255-g},${255-b},0.3)`;
+      ctxFg.fillStyle = `rgba(${255-r},${255-g},${255-b},0.3)`;
       ctxFg.fillText(ch, i*size, d*size);
-      drops[i]+=0.3+Math.random()*0.1;
-      if(drops[i]*size>h && Math.random()>0.97) drops[i]=0;
+      drops[i] += 0.2 + Math.random()*0.05;
+      if (drops[i]*size>h && Math.random()>0.98) drops[i]=0;
     });
   }
   function loop(){ draw(); requestAnimationFrame(loop); }
@@ -305,37 +328,38 @@
 
   // REVEAL SECTIONS
   document.querySelectorAll('section').forEach(sec=>{
-    new IntersectionObserver((ents, obs)=>{
-      if(ents[0].isIntersecting){ sec.classList.add('visible'); obs.disconnect(); }
+    new IntersectionObserver((ents,obs)=>{
+      if (ents[0].isIntersecting){ sec.classList.add('visible'); obs.disconnect(); }
     },{threshold:0.2}).observe(sec);
   });
 
-  // GLITCH LOGO WITH PROGRAMMING SYMBOLS
+  // GLITCH LOGO
   const logoSpans = document.querySelectorAll('#logo span');
-  // заменили набор символов:
-  const symbols = ['<','>','[',']','{','}','*','&','^','%','$','#','@','?'];
+  const symbols = ['<','>','[',']','{','}','*','&','^','%','$','#','@','?','0','1'];
   setInterval(()=>{
-    const idx = Math.floor(Math.random()*logoSpans.length);
-    const orig = logoSpans[idx].textContent;
-    const sym  = symbols[Math.floor(Math.random()*symbols.length)];
+    const idx = Math.floor(Math.random()*logoSpans.length),
+          orig=logoSpans[idx].textContent,
+          sym = symbols[Math.floor(Math.random()*symbols.length)];
     logoSpans[idx].textContent = sym;
     logoSpans[idx].setAttribute('data-char', sym);
+    logoSpans[idx].style.color = '#00ff8a';
     setTimeout(()=>{
       logoSpans[idx].textContent = orig;
       logoSpans[idx].setAttribute('data-char','');
-    }, 200);
-  }, 400);
+      logoSpans[idx].style.color = '#fff';
+    },400);
+  },800);
 
-  // SERVICE ITEM GLITCH & CLICK
+  // SERVICE ITEMS
   document.querySelectorAll('.service-item').forEach(item=>{
-    new IntersectionObserver((ents, obs)=>{
-      if(ents[0].isIntersecting){
+    new IntersectionObserver((ents,obs)=>{
+      if (ents[0].isIntersecting){
         item.classList.add('active');
-        setTimeout(()=> item.classList.remove('active'), 1200);
+        setTimeout(()=>item.classList.remove('active'),1200);
         obs.disconnect();
       }
     },{threshold:0.6}).observe(item);
-    item.addEventListener('click', ()=> item.classList.toggle('revealed'));
+    item.addEventListener('click',()=>item.classList.toggle('revealed'));
   });
 </script>
 
