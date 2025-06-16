@@ -22,68 +22,71 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 140px; /* под шапку */
+      padding-top: 160px; /* под шапку */
     }
 
     /* ========== HEADER ========== */
     header.header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 120px;
+      height: 160px;
       background: #0e0f14cc;
       backdrop-filter: saturate(180%) blur(10px);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       color: white;
       z-index: 10000;
       user-select: none;
       box-shadow: 0 2px 8px rgba(0,255,247,0.2);
+      padding: 0 20px;
     }
 
     /* Логотип */
     .logo {
       font-weight: 900;
-      font-size: 3.8rem;
-      letter-spacing: 7px;
+      font-size: 4.5rem;
+      letter-spacing: 10px;
       color: #fff;
       text-transform: uppercase;
       text-shadow:
-        0 0 15px #00fff7,
-        0 0 30px #00ff8a,
-        0 0 40px #00ff4c,
-        0 0 50px #00ff10;
+        0 0 20px #00fff7,
+        0 0 40px #00ff8a,
+        0 0 55px #00ff4c,
+        0 0 70px #00ff10;
       animation: logoGlow 3.5s ease-in-out infinite alternate;
       cursor: default;
       user-select: none;
       position: relative;
+      margin-bottom: 8px;
     }
 
     @keyframes logoGlow {
       0% {
         text-shadow:
-          0 0 15px #00fff7,
-          0 0 30px #00ff8a,
-          0 0 40px #00ff4c,
-          0 0 50px #00ff10;
+          0 0 20px #00fff7,
+          0 0 40px #00ff8a,
+          0 0 55px #00ff4c,
+          0 0 70px #00ff10;
         color: #fff;
         transform: scale(1);
       }
       50% {
         text-shadow:
-          0 0 40px #00fff7,
-          0 0 70px #00ff8a,
-          0 0 90px #00ff4c,
-          0 0 110px #00ff10;
+          0 0 60px #00fff7,
+          0 0 100px #00ff8a,
+          0 0 130px #00ff4c,
+          0 0 150px #00ff10;
         color: #e0ffe0;
-        transform: scale(1.05);
+        transform: scale(1.1);
       }
       100% {
         text-shadow:
-          0 0 15px #00fff7,
-          0 0 30px #00ff8a,
-          0 0 40px #00ff4c,
-          0 0 50px #00ff10;
+          0 0 20px #00fff7,
+          0 0 40px #00ff8a,
+          0 0 55px #00ff4c,
+          0 0 70px #00ff10;
         color: #fff;
         transform: scale(1);
       }
@@ -91,20 +94,33 @@
 
     /* Подзаголовок в шапке */
     .header-subtitle {
-      position: absolute;
-      bottom: 8px;
       font-weight: 600;
-      font-size: 1.1rem;
-      color: #00ff9eaa;
-      letter-spacing: 1.5px;
-      text-shadow: 0 0 5px #00ff9e99;
+      font-size: 1.4rem;
+      color: #00ff9eee;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #00ff9eaa;
       user-select: none;
       animation: subtitleFadeIn 2.5s ease forwards;
       opacity: 0;
+      margin-bottom: 4px;
     }
 
     @keyframes subtitleFadeIn {
       to {opacity: 1;}
+    }
+
+    /* Дополнительный текст в шапке */
+    .header-description {
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #aaffcccc;
+      max-width: 900px;
+      text-align: center;
+      text-shadow: 0 0 6px #00ffaaaa;
+      user-select: none;
+      animation: subtitleFadeIn 3.5s ease forwards;
+      opacity: 0;
+      line-height: 1.4;
     }
 
     /* ========== MATRIX CANVAS ========== */
@@ -112,7 +128,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 160px; /* ограничить по высоте шапки */
       z-index: -1;
       pointer-events: none;
       background: transparent;
@@ -282,6 +298,10 @@
         font-size: 0.9rem;
         bottom: 6px;
       }
+      .header-description {
+        font-size: 0.9rem;
+        max-width: 320px;
+      }
     }
   </style>
 </head>
@@ -291,6 +311,9 @@
   <canvas class="matrix-canvas" aria-hidden="true"></canvas>
   <div class="logo" aria-label="Логотип компании DESAN">DESAN</div>
   <div class="header-subtitle">Будущее начинается здесь</div>
+  <div class="header-description" aria-label="Описание компании">
+    Цифровые решения нового поколения — сайты, боты, AI и облачные технологии для вашего бизнеса.
+  </div>
 </header>
 
 <main role="main" aria-labelledby="main-title">
@@ -356,7 +379,7 @@
 
   function init() {
     width = window.innerWidth;
-    height = window.innerHeight;
+    height = 160; // Высота шапки
     canvas.width = width;
     canvas.height = height;
     columns = Math.floor(width / fontSize);
@@ -367,7 +390,8 @@
   }
 
   function draw() {
-    ctx.fillStyle = 'rgba(14,15,20, 0.12)';
+    // Полупрозрачный фон для размытия старых символов
+    ctx.fillStyle = 'rgba(14,15,20, 0.1)';
     ctx.fillRect(0, 0, width, height);
 
     ctx.font = fontSize + 'px monospace';
@@ -383,11 +407,11 @@
       ctx.fillStyle = rgbToString(rgb);
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      // Плавная скорость падения, замедляем почти в 2 раза
-      drops[i] += 0.45 + Math.random() * 0.2;
+      // Медленная скорость падения
+      drops[i] += 0.25 + Math.random() * 0.1;
 
       // Возвращаем поток наверх с вероятностью и сбросом
-      if(drops[i] * fontSize > height && Math.random() > 0.98) {
+      if(drops[i] * fontSize > height && Math.random() > 0.97) {
         drops[i] = 0;
       }
     }
