@@ -1,460 +1,245 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DESAN — IT Solutions & Bots</title>
-<style>
-  /* Reset */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DESAN — IT Solutions & Bots</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #0e0f14; color: #eee; overflow-x: hidden; }
 
-  body {
-    background: #0e0f14;
-    color: #eee;
-    overflow-x: hidden;
-  }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-  /* Container */
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    /* Matrix background */
+    .matrix-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas.matrix-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-  /* Header */
-  header.header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background: rgba(14, 15, 20, 0.85);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid #222;
-    z-index: 1100;
-    box-shadow: 0 0 15px #00fff7aa;
-    animation: headerGlow 3s infinite alternate;
-  }
-
-  @keyframes headerGlow {
-    0% {
-      box-shadow: 0 0 15px #00fff7aa;
+    /* Header */
+    header.header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 90px;
       background: rgba(14, 15, 20, 0.85);
-    }
-    50% {
-      box-shadow: 0 0 30px #00fff7ff;
-      background: rgba(14, 15, 20, 0.95);
-    }
-    100% {
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid #222;
+      z-index: 1000;
       box-shadow: 0 0 15px #00fff7aa;
-      background: rgba(14, 15, 20, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-  }
 
-  .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-  }
-
-  .logo {
-    font-weight: 900;
-    font-size: 1.9rem;
-    color: #00fff7;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    position: relative;
-    cursor: default;
-    user-select: none;
-    animation: flicker 3s infinite ease-in-out;
-  }
-  /* Logo flicker animation */
-  @keyframes flicker {
-    0%, 100% {opacity: 1; text-shadow: 0 0 12px #00fff7;}
-    50% {opacity: 0.6; text-shadow: 0 0 25px #00fff7, 0 0 40px #00ffff;}
-  }
-
-  nav.menu {
-    display: flex;
-    gap: 2.5rem;
-  }
-  nav.menu a {
-    color: #aaa;
-    text-decoration: none;
-    font-weight: 600;
-    position: relative;
-    transition: color 0.35s ease;
-    font-size: 1.1rem;
-    user-select: none;
-  }
-  nav.menu a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px; left: 0;
-    width: 100%; height: 3px;
-    background: #00fff7;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.35s ease;
-    border-radius: 2px;
-  }
-  nav.menu a:hover {
-    color: #00fff7;
-  }
-  nav.menu a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  /* Hero section */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 6rem;
-    text-align: center;
-    background: linear-gradient(135deg, #02030a 0%, #0e0f14 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero h1 {
-    font-size: 3.8rem;
-    font-weight: 900;
-    color: #00fff7;
-    margin-bottom: 1.2rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    filter: drop-shadow(0 0 12px #00fff7);
-    animation: slideInTop 1s ease forwards;
-  }
-  @keyframes slideInTop {
-    0% {
-      opacity: 0;
-      transform: translateY(-50px);
+    .logo {
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: #00fff7;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: flicker 3s infinite ease-in-out;
+      z-index: 2;
+      position: relative;
+      user-select: none;
+      pointer-events: none;
     }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
+
+    @keyframes flicker {
+      0%, 100% {opacity: 1; text-shadow: 0 0 12px #00fff7;}
+      50% {opacity: 0.6; text-shadow: 0 0 25px #00fff7, 0 0 40px #00ffff;}
     }
-  }
-  .hero p {
-    font-size: 1.35rem;
-    color: #ccc;
-    margin-bottom: 2.5rem;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    animation: fadeIn 1.7s ease forwards;
-    line-height: 1.6;
-  }
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  .btn-primary {
-    background: #00fff7;
-    color: #0e0f14;
-    font-weight: 700;
-    padding: 1rem 3.5rem;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-size: 1.25rem;
-    letter-spacing: 1.7px;
-    box-shadow: 0 0 18px #00fff7cc;
-    transition: background 0.3s ease, transform 0.25s ease;
-    animation: pulse 2.7s infinite;
-    user-select: none;
-  }
-  .btn-primary:hover {
-    background: #00c4b7;
-    transform: scale(1.1);
-    box-shadow: 0 0 40px #00fff7ff;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 18px #00fff7cc; }
-    50% { box-shadow: 0 0 35px #00fff7ff; }
-  }
 
-  /* Services section */
-  section.services {
-    padding: 5rem 0 3rem;
-    background: #12151e;
-  }
-  section.services h2 {
-    text-align: center;
-    color: #00fff7;
-    font-size: 3rem;
-    margin-bottom: 3.5rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    user-select: none;
-  }
-  .service-list {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 2.5rem;
-  }
-  .service-item {
-    background: #1b1e27;
-    border-radius: 24px;
-    padding: 2.5rem;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 0 25px #00fff740;
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-    cursor: default;
-    user-select: none;
-  }
-  .service-item:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 0 45px #00fff7cc;
-  }
-  .service-icon {
-    font-size: 4rem;
-    margin-bottom: 1.3rem;
-    color: #00fff7;
-    animation: iconGlow 3s infinite alternate ease-in-out;
-  }
-  @keyframes iconGlow {
-    0% { text-shadow: 0 0 15px #00fff7; }
-    100% { text-shadow: 0 0 40px #00fff7; }
-  }
-  .service-title {
-    font-size: 1.7rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    user-select: text;
-  }
-  .service-desc {
-    font-size: 1.1rem;
-    color: #aaa;
-    line-height: 1.5;
-    user-select: text;
-  }
-
-  /* About section */
-  #about {
-    padding: 5rem 0;
-    color: #ccc;
-  }
-  #about h2 {
-    text-align: center;
-    color: #00fff7;
-    margin-bottom: 3rem;
-    font-size: 3rem;
-    letter-spacing: 3px;
-    user-select: none;
-  }
-  #about p {
-    max-width: 900px;
-    margin: 0 auto 2rem;
-    line-height: 1.65;
-    font-size: 1.15rem;
-    user-select: text;
-  }
-  #about p:last-child {
-    margin-bottom: 0;
-  }
-
-  /* Contacts section */
-  #contacts {
-    padding: 3rem 0;
-    text-align: center;
-    user-select: none;
-  }
-  #contacts h2 {
-    color: #00fff7;
-    margin-bottom: 2rem;
-    font-size: 2.8rem;
-  }
-  #contacts p {
-    font-size: 1.15rem;
-    color: #ccc;
-    margin: 0.3rem 0;
-    user-select: text;
-  }
-  #contacts a {
-    color: #00fff7;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  #contacts a:hover {
-    color: #00c4b7;
-  }
-  #contacts .socials {
-    margin-top: 1.2rem;
-  }
-  #contacts .socials a {
-    color: #00fff7;
-    margin: 0 0.7rem;
-    font-size: 2rem;
-    transition: color 0.3s ease;
-  }
-  #contacts .socials a:hover {
-    color: #00c4b7;
-  }
-
-  /* Footer */
-  footer {
-    background: #0e0f14;
-    padding: 2rem 0;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-    border-top: 1px solid #222;
-    user-select: none;
-  }
-
-  /* Scroll animations */
-  .fade-in-section {
-    opacity: 0;
-    transform: translateY(25px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  }
-  .fade-in-section.is-visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* Additional tech shine animation for hero text */
-  .hero h1::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -30%;
-    width: 80%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #00fff7, transparent);
-    transform: skewX(-20deg);
-    animation: shine 3s infinite;
-    pointer-events: none;
-  }
-  @keyframes shine {
-    0% {
-      left: -30%;
-      opacity: 0.3;
+    /* Hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 6rem;
+      text-align: center;
+      background: linear-gradient(135deg, #02030a 0%, #0e0f14 100%);
+      position: relative;
+      overflow: hidden;
     }
-    50% {
-      left: 100%;
-      opacity: 1;
-    }
-    100% {
-      left: 100%;
-      opacity: 0.3;
-    }
-  }
 
-</style>
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #00fff7;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      filter: drop-shadow(0 0 12px #00fff7);
+      animation: slideInTop 1s ease forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes slideInTop {
+      0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #ccc;
+      margin-bottom: 2.5rem;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeIn 1.7s ease forwards;
+      line-height: 1.6;
+      z-index: 1;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    .btn-primary {
+      background: #00fff7;
+      color: #0e0f14;
+      font-weight: 700;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.25rem;
+      letter-spacing: 1.5px;
+      box-shadow: 0 0 18px #00fff7cc;
+      transition: background 0.3s ease, transform 0.25s ease;
+      animation: pulse 2.7s infinite;
+      z-index: 1;
+      position: relative;
+    }
+
+    .btn-primary:hover {
+      background: #00c4b7;
+      transform: scale(1.08);
+      box-shadow: 0 0 40px #00fff7ff;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 18px #00fff7cc; }
+      50% { box-shadow: 0 0 35px #00fff7ff; }
+    }
+  </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="matrix-bg"></div>
-  <div class="container header-container centered-header">
-    <div class="logo" title="DESAN - Your IT partner">DESAN</div>
-    <nav class="menu" role="navigation" aria-label="Главное меню">
-      <a href="#services">Услуги</a>
-      <a href="#about">О нас</a>
-      <a href="#contacts">Контакты</a>
-    </nav>
+<header style="position: relative; height: 100vh; overflow: hidden; background: black; color: white;">
+  <!-- Анимация "Матрица" -->
+  <canvas id="matrix-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></canvas>
+
+  <!-- Контент поверх -->
+  <div style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: bold;">DESAN</h1>
+    <p style="font-size: 1.5rem;">Будущее начинается здесь</p>
   </div>
+
+  <script>
+    // Матрица-анимация
+    const canvas = document.getElementById("matrix-canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    // Обновление размера при ресайзе окна
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </header>
 
+
 <section class="hero">
-  <h1>Цифровые решения нового поколения</h1>
-  <p>Автоматизируйте бизнес с помощью умных ботов, адаптивных сайтов и облачных технологий от DESAN.</p>
-  <button class="btn-primary" onclick="alert('Свяжитесь с нами для бесплатной консультации!')">Связаться с нами</button>
+  <h1>Будущее начинается здесь</h1>
+  <p>Инновационные IT-решения, интеллектуальные боты и веб-системы от команды DESAN.</p>
+  <button class="btn-primary" onclick="alert('Свяжитесь с нами для консультации')">Связаться</button>
 </section>
-
-
-<section id="services" class="services container fade-in-section">
-  <h2>Наши услуги</h2>
-  <div class="service-list">
-    <div class="service-item" tabindex="0" aria-label="Telegram Боты">
-      <div class="service-icon" aria-hidden="true">🤖</div>
-      <div class="service-title">Telegram Боты</div>
-      <div class="service-desc">Разработка интеллектуальных Telegram-ботов, способных автоматизировать сложные бизнес-процессы и обеспечивать мгновенную поддержку клиентов 24/7.</div>
-    </div>
-    <div class="service-item" tabindex="0" aria-label="WhatsApp Боты">
-      <div class="service-icon" aria-hidden="true">📱</div>
-      <div class="service-title">WhatsApp Боты</div>
-      <div class="service-desc">Интеграция WhatsApp ботов с CRM и бизнес-системами для эффективного взаимодействия с клиентами и увеличения продаж.</div>
-    </div>
-    <div class="service-item" tabindex="0" aria-label="Веб-разработка">
-      <div class="service-icon" aria-hidden="true">💻</div>
-      <div class="service-title">Веб-разработка</div>
-      <div class="service-desc">Создание стильных, адаптивных и высокопроизводительных сайтов и веб-приложений с инновационным дизайном и плавными анимациями.</div>
-    </div>
-    <div class="service-item" tabindex="0" aria-label="CRM Интеграции">
-      <div class="service-icon" aria-hidden="true">⚙️</div>
-      <div class="service-title">CRM Интеграции</div>
-      <div class="service-desc">Автоматизация бизнес-процессов через интеграцию с CRM-системами, обеспечивающая контроль и рост продаж.</div>
-    </div>
-    <div class="service-item" tabindex="0" aria-label="Облачные решения">
-      <div class="service-icon" aria-hidden="true">☁️</div>
-      <div class="service-title">Облачные решения</div>
-      <div class="service-desc">Проектирование, развертывание и поддержка масштабируемой облачной инфраструктуры для надежности и гибкости.</div>
-    </div>
-    <div class="service-item" tabindex="0" aria-label="Кибербезопасность">
-      <div class="service-icon" aria-hidden="true">🔐</div>
-      <div class="service-title">Кибербезопасность</div>
-      <div class="service-desc">Комплексные меры защиты данных и сервисов для предотвращения угроз и обеспечения конфиденциальности.</div>
-    </div>
-  </div>
-</section>
-
-<section id="about" class="container fade-in-section">
-  <h2>О компании DESAN</h2>
-  <p>
-    DESAN — это команда инженеров, дизайнеров и аналитиков, объединившихся с целью создать инновационные цифровые решения, меняющие правила игры в бизнесе. Мы не просто разрабатываем — мы строим экосистемы, которые облегчают работу, повышают прибыль и делают бизнес устойчивым к вызовам будущего.
-  </p>
-  <p>
-    Используя современные технологии машинного обучения, облачные платформы, API-интеграции и продвинутую аналитику, мы внедряем решения, которые работают на результат уже сегодня. Наша миссия — помочь вам внедрить автоматизацию и интеллектуальные системы, которые выводят ваш бизнес на новый уровень эффективности.
-  </p>
-  <p>
-    В DESAN мы ценим качество, безопасность и инновации, гарантируя, что каждый проект — это уникальное сочетание технологий и креативного подхода.
-  </p>
-</section>
-
-<section id="contacts" class="container fade-in-section">
-  <h2>Свяжитесь с нами</h2>
-  <p>📧 <a href="mailto:info@desan.tech" aria-label="Отправить письмо на info@desan.tech">info@desan.tech</a></p>
-  <p>📞 +7 (777) 123-45-67</p>
-  <p>🌐 <a href="https://www.desan.tech" target="_blank" rel="noopener" aria-label="Перейти на сайт www.desan.tech">www.desan.tech</a></p>
-  <div class="socials" aria-label="Социальные сети">
-    <a href="#" aria-label="Твиттер" title="Twitter">🐦</a>
-    <a href="#" aria-label="Telegram" title="Telegram">💬</a>
-    <a href="#" aria-label="WhatsApp" title="WhatsApp">📱</a>
-  </div>
-</section>
-
-<footer>
-  © 2025 DESAN — Все права защищены
-</footer>
 
 <script>
-  // Плавное появление элементов при скролле
-  const faders = document.querySelectorAll('.fade-in-section');
+  // Matrix animation
+  const canvas = document.querySelector('.matrix-canvas');
+  const ctx = canvas.getContext('2d');
 
-  const appearOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-  };
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      appearOnScroll.unobserve(entry.target);
-    });
-  }, appearOptions);
+  const letters = '01';
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
 
-  faders.forEach(fader => {
-    appearOnScroll.observe(fader);
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#00fff7';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 35);
+
+  // Обновление размера canvas при ресайзе
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   });
 </script>
 
