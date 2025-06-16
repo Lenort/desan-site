@@ -5,113 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DESAN — IT Solutions & Bots</title>
   <style>
-    /* Reset */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
-    body { background:#0e0f14; color:#eee; overflow-x:hidden; }
+    /* ========== RESET ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #0e0f14; color: #eee; overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    a { color: inherit; text-decoration: none; }
 
-    /* Header */
+    /* ========== HEADER ========== */
     header.header {
-      position: relative; width:100%; padding:3rem 1rem;
-      background:rgba(14,15,20,0.9); backdrop-filter:blur(8px);
-      text-align:center; overflow:hidden;
+      position: relative; width: 100%; padding: 3rem 1rem;
+      background: rgba(14,15,20,0.9); backdrop-filter: blur(8px);
+      text-align: center; overflow: hidden;
     }
     header.header canvas {
-      position:absolute; top:0; left:0;
-      width:100%; height:100%; z-index:0; pointer-events:none;
-      filter:brightness(0.5);
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: 0; pointer-events: none;
+      filter: brightness(0.5);
+      animation: pulseMatrix 10s infinite;
+    }
+    @keyframes pulseMatrix {
+      0%,100%{filter:brightness(0.4);}50%{filter:brightness(0.6);}    
     }
     header.header .logo {
-      position:relative; z-index:1;
-      font-size:7rem; font-weight:900;
-      color:#fff; letter-spacing:12px; margin-bottom:1rem;
+      position: relative; z-index: 1;
+      font-size: 7rem; font-weight: 900;
+      color: #fff; letter-spacing: 12px; margin-bottom: 1rem;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
     }
     header.header .header-subtitle {
-      position:relative; z-index:1;
-      font-size:2.5rem; font-weight:600; margin-bottom:.5rem;
+      position: relative; z-index: 1;
+      font-size: 2.5rem; font-weight: 600; margin-bottom: .5rem;
+      color: #00fff7;
+      animation: fadeIn 1.5s ease forwards;
+      opacity: 0;
     }
     header.header .header-description {
-      position:relative; z-index:1;
-      font-size:1.5rem; max-width:900px; margin:0 auto; line-height:1.5;
+      position: relative; z-index: 1;
+      font-size: 1.5rem; max-width: 900px; margin: 0 auto; line-height: 1.5;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
     }
+    @keyframes fadeIn { to { opacity: 1; }}
 
-    /* Main & Sections */
-    main { max-width:1080px; width:90%; margin:4rem auto 2rem; }
-    section { opacity:0; transform:translateY(30px);
-      transition:opacity .8s ease, transform .8s ease;
+    /* ========== MAIN & SECTIONS ========== */
+    main { max-width: 1080px; width: 90%; margin: 4rem auto 2rem; }
+    section { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+    section.visible { opacity: 1; transform: translateY(0); }
+    h2 { color: #00fff7; font-size: 2.5rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
+    .about { position: relative; }
+    .about p {
+      font-size: 1.3rem; line-height: 1.75; color: #ccc;
+      animation: fadeIn 2.5s ease forwards;
     }
-    section.visible { opacity:1; transform:translateY(0); }
-    h2 {
-      color:#00fff7; font-size:2.5rem; margin-bottom:1.5rem;
-      text-transform:uppercase; letter-spacing:2px;
+    /* Overlay matrix on about text */
+    .about::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text x="0" y="20" font-family="monospace" font-size="20" fill="rgba(0,255,247,0.05)">01010101</text></svg>') repeat;
+      mix-blend-mode: overlay;
+      animation: moveOverlay 20s linear infinite;
     }
-    .about p { font-size:1.3rem; line-height:1.75; color:#ccc; }
+    @keyframes moveOverlay { 0%{background-position:0 0;}100%{background-position:100px 100px;} }
 
-    /* Services */
-    .services {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:2rem;
-    }
+    /* ========== SERVICES ========== */
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; }
     .service-item {
-      position:relative; background:#011b1d; border-radius:16px;
-      padding:2rem; overflow:hidden; cursor:pointer;
-      transition:transform .3s ease;
+      position: relative; background: #011b1d; border-radius: 16px;
+      padding: 2rem; overflow: hidden; cursor: pointer;
+      transition: transform .3s ease;
     }
-    .service-item:hover { transform:translateY(-10px); }
-    .service-item .icon { font-size:3rem; margin-bottom:.8rem; display:block; }
-    .service-item .title { font-size:1.3rem; font-weight:700; margin-bottom:1rem; }
-    /* Glitch */
-    .service-item.active .title {
-      animation:glitch 1.2s;
-    }
+    .service-item:hover { transform: translateY(-10px); }
+    .service-item .icon { font-size: 3rem; margin-bottom: .8rem; display: block; }
+    .service-item .title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
+    /* glitch on scroll */
+    .service-item.active .title { animation: glitch 1.2s; }
     @keyframes glitch {
-      0%,100%{text-shadow:none}
-      10%{text-shadow:2px 0 #00ff8a}
-      20%{text-shadow:-2px 0 #00fff7}
-      30%{text-shadow:2px 2px #00ff8a}
-      40%{text-shadow:-2px -2px #00fff7}
-      50%{text-shadow:2px -2px #00ff8a}
-      60%{text-shadow:-2px 2px #00fff7}
-      70%{text-shadow:2px 0 #00ff8a}
-      80%{text-shadow:-2px 0 #00fff7}
-      90%{text-shadow:none}
+      0%,100%{text-shadow:none;} 10%{text-shadow:2px 0 #00ff8a;} 20%{text-shadow:-2px 0 #00fff7;} 30%{text-shadow:2px 2px #00ff8a;} 40%{text-shadow:-2px -2px #00fff7;} 50%{text-shadow:2px -2px #00ff8a;} 60%{text-shadow:-2px 2px #00fff7;} 70%{text-shadow:2px 0 #00ff8a;} 80%{text-shadow:-2px 0 #00fff7;} 90%{text-shadow:none;}
     }
-    .service-item .desc {
-      max-height:0; opacity:0;
-      transition:max-height .5s ease,opacity .5s ease;
-    }
-    .service-item.revealed .desc {
-      max-height:200px; opacity:1; margin-top:1rem;
-      color:#00ff8a; font-size:1rem; line-height:1.4;
-    }
+    .service-item .desc { max-height: 0; opacity: 0; transition: max-height .5s ease, opacity .5s ease; }
+    .service-item.revealed .desc { max-height: 200px; opacity: 1; margin-top: 1rem; color: #00ff8a; font-size: 1rem; line-height: 1.4; }
 
-    /* Features */
-    .features {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:2rem; margin-top:3rem;
-    }
-    .feature-item {
-      background:#122; border-radius:12px;
-      padding:1.5rem; transition:background .3s ease;
-    }
-    .feature-item:hover { background:#144; }
-    .feature-item h3 { color:#00ff8a; margin-bottom:.5rem; }
-    .feature-item p { color:#ccc; line-height:1.5; }
+    /* ========== FEATURES ========== */
+    .features { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2rem; margin-top: 3rem; }
+    .feature-item { background: #122; border-radius: 12px; padding: 1.5rem; transition: background .3s ease; }
+    .feature-item:hover { background: #144; }
+    .feature-item h3 { color: #00ff8a; margin-bottom: .5rem; }
+    .feature-item p { color: #ccc; line-height: 1.5; }
 
-    /* Button */
-    .btn-primary {
-      display:inline-block; background:linear-gradient(90deg,#00fff7,#00ff8a);
-      color:#0e0f14; padding:.75rem 2.5rem; border-radius:30px;
-      font-weight:700; text-transform:uppercase; box-shadow:0 0 20px #00ff8a88;
-      transition:transform .3s ease; margin:3rem auto 0; cursor:pointer;
-    }
-    .btn-primary:hover { transform:scale(1.05); }
+    /* ========== BUTTON ========== */
+    .btn-primary { display: inline-block; background: linear-gradient(90deg,#00fff7,#00ff8a); color: #0e0f14; padding: .75rem 2.5rem; border-radius: 30px; font-weight: 700; text-transform: uppercase; box-shadow: 0 0 20px #00ff8a88; transition: transform .3s ease; margin: 3rem auto 0; cursor: pointer; }
+    .btn-primary:hover { transform: scale(1.05); }
 
-    /* Footer */
-    footer.footer {
-      width:100%; padding:2rem 1rem; background:#011b1d;
-      text-align:center; color:#00ff8acc; font-weight:600;
+    /* ========== FOOTER ========== */
+    footer.footer { width: 100%; padding: 2rem 1rem; background: #011b1d; text-align: center; color: #00ff8acc; font-weight: 600; }
+
+    @media (max-width:720px) {
+      header.header { padding:2rem 1rem; }
+      header.header .logo { font-size:4rem; }
+      header.header .header-subtitle { font-size:1.8rem; }
+      header.header .header-description { font-size:1.1rem; }
+      main { margin:2rem auto; }
     }
   </style>
 </head>
@@ -122,7 +115,7 @@
   <div class="logo">DESAN</div>
   <div class="header-subtitle">Будущее начинается здесь</div>
   <div class="header-description">
-    Цифровые решения нового поколения — сайты, боты, AI и облачные технологии.
+    Цифровые решения нового поколения — сайты, боты, AI и облачные технологии.
   </div>
 </header>
 
@@ -131,8 +124,8 @@
     <h2>О компании</h2>
     <p>
       Компания DESAN — эксперты в создании современных цифровых решений.
-      Мы разрабатываем сайты любой сложности, продвинутые Telegram‑ и WhatsApp‑боты,
-      интегрируем CRM, внедряем AI и облачные сервисы для полного цикла автоматизации.
+      Мы разрабатываем сайты любой сложности, продвинутые Telegram‑ и WhatsApp‑боты,
+      интегрируем CRM, внедряем AI и облачные сервисы для полного цикла автоматизации.
     </p>
   </section>
 
@@ -141,7 +134,7 @@
       <span class="icon">💻</span>
       <span class="title">Веб‑разработка</span>
       <div id="desc1" class="desc">
-        Адаптивные сайты и веб‑приложения с уникальным дизайном и анимациями.
+        Адаптивные сайты и веб‑приложения с уникальным дизайном и анимациями.
       </div>
     </div>
     <div class="service-item" data-desc="desc2">
@@ -155,28 +148,28 @@
       <span class="icon">💬</span>
       <span class="title">WhatsApp‑боты</span>
       <div id="desc3" class="desc">
-        Мгновенная поддержка и продажи через WhatsApp‑боты.
+        Мгновенная поддержка и продажи через WhatsApp‑боты.
       </div>
     </div>
     <div class="service-item" data-desc="desc4">
       <span class="icon">🧠</span>
       <span class="title">Искусственный интеллект</span>
       <div id="desc4" class="desc">
-        ML/AI решения для аналитики и автоматизации.
+        ML/AI решения для аналитики и автоматизации.
       </div>
     </div>
     <div class="service-item" data-desc="desc5">
       <span class="icon">☁️</span>
       <span class="title">Облачные решения</span>
       <div id="desc5" class="desc">
-        Надёжная, масштабируемая инфраструктура в облаках.
+        Надёжная, масштабируемая инфраструктура в облаках.
       </div>
     </div>
     <div class="service-item" data-desc="desc6">
       <span class="icon">⚙️</span>
       <span class="title">Интеграции CRM</span>
       <div id="desc6" class="desc">
-        Свяжем все системы в единую экосистему.
+        Свяжем все системы в единую экосистему.
       </div>
     </div>
   </section>
@@ -187,12 +180,12 @@
       <p>Круглосуточная поддержка для бесперебойной работы.</p>
     </div>
     <div class="feature-item">
-      <h3>Аналитика и отчёты</h3>
-      <p>Дашборды и метрики в реальном времени.</p>
+      <h3>Аналитика и отчёты</h3>
+      <p>Дашборды и метрики в реальном времени.</p>
     </div>
     <div class="feature-item">
       <h3>UI/UX дизайн</h3>
-      <p>Эстетичные и удобные интерфейсы для пользователей.</p>
+      <p>Эстетичные и удобные интерфейсы для пользователей.</p>
     </div>
   </section>
 
@@ -208,7 +201,7 @@
 </footer>
 
 <script>
-  // Matrix effect (замедлено)
+  // MATRIX EFFECT
   const canvas = document.querySelector('.matrix-canvas');
   const ctx = canvas.getContext('2d');
   let w,h,cols,drops;
@@ -223,7 +216,7 @@
       const [r,g,b]=lerp(c0,c1,t);
       ctx.fillStyle=`rgb(${r},${g},${b})`;
       ctx.fillText(Math.random()>0.5?'0':'1',i*size,d*size);
-      drops[i]+=0.15+Math.random()*0.1; // медленнее
+      drops[i]+=0.15+Math.random()*0.1;
       if(drops[i]*size>h && Math.random()>0.98) drops[i]=0;
     });
   }
@@ -231,23 +224,13 @@
   window.addEventListener('resize',resize);
   resize();loop();
 
-  // Reveal sections on scroll
+  // REVEAL & GLITCH
   document.querySelectorAll('section').forEach(sec=>{
-    new IntersectionObserver((ent,obs)=>{
-      if(ent[0].isIntersecting){sec.classList.add('visible');obs.disconnect();}
-    },{threshold:.2}).observe(sec);
+    new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){sec.classList.add('visible');o.disconnect();}},{threshold:.2}).observe(sec);
   });
-
-  // Glitch & reveal service descriptions
   document.querySelectorAll('.service-item').forEach(item=>{
-    new IntersectionObserver((ent,obs)=>{
-      if(ent[0].isIntersecting){
-        item.classList.add('active');
-        setTimeout(()=>item.classList.remove('active'),1200);
-        obs.disconnect();
-      }
-    },{threshold:.6}).observe(item);
-    item.addEventListener('click',()=> item.classList.toggle('revealed'));
+    new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){item.classList.add('active');setTimeout(()=>item.classList.remove('active'),1200);o.disconnect();}},{threshold:.6}).observe(item);
+    item.addEventListener('click',()=>item.classList.toggle('revealed'));
   });
 </script>
 </body>
