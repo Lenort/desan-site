@@ -5,13 +5,65 @@ body {
     margin: 0;
     padding: 2rem;
 }
-
-header {
-    text-align: center;
-    animation: fadeIn 2s ease-in-out;
+/* Центровка логотипа */
+.centered-header {
+  flex-direction: column;
+  gap: 0.7rem;
+  text-align: center;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+.menu {
+  justify-content: center;
+}
+
+/* Matrix фон */
+.matrix-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.matrix-bg::before, .matrix-bg::after {
+  content: '0101010101101010010101010100101010101';
+  position: absolute;
+  color: rgba(0, 255, 247, 0.05);
+  font-family: monospace;
+  white-space: nowrap;
+  font-size: 2rem;
+  animation: matrixScroll 20s linear infinite;
+  writing-mode: vertical-rl;
+}
+
+.matrix-bg::after {
+  top: 0;
+  left: 60%;
+  animation-delay: 5s;
+}
+
+@keyframes matrixScroll {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Hero уменьшен */
+.hero {
+  padding-top: 7rem;
+  padding-bottom: 4rem;
+  min-height: 70vh;
+}
+.hero h1 {
+  font-size: 2.8rem;
+}
+.hero p {
+  font-size: 1.1rem;
+  max-width: 600px;
 }
