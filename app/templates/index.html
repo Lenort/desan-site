@@ -1,14 +1,303 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>DESAN — Технологичные решения</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Desan - Современные туры</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      color: #e1e4e8;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: #ff6f61;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #e95a4c;
+    }
+
+    /* --- HERO --- */
+    .hero {
+      padding: 6rem 2rem 8rem;
+      text-align: center;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    }
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      color: #ff6f61;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2.5rem;
+      color: #9aa5b1;
+      animation: fadeInUp 1.3s ease forwards;
+      opacity: 0;
+    }
+    .btn-primary {
+      background: #ff6f61;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 1rem 2.5rem;
+      font-size: 1.25rem;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(255,111,97,0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 1.6s ease forwards;
+      opacity: 0;
+    }
+    .btn-primary:hover {
+      background: #e95a4c;
+      box-shadow: 0 8px 20px rgba(233, 90, 76, 0.7);
+    }
+
+    /* --- TOURS CAROUSEL --- */
+    .tours-section {
+      max-width: 1200px;
+      margin: -6rem auto 4rem;
+      padding: 0 1rem 4rem;
+      background: rgba(255 255 255 / 0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+    .tours-section h2 {
+      color: #ff6f61;
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .tour-card {
+      background: #161b22;
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      margin-right: 20px;
+      min-width: 280px;
+      flex-shrink: 0;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .tour-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(255,111,97,0.7);
+    }
+    .tour-image {
+      height: 180px;
+      object-fit: cover;
+      width: 100%;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      transition: transform 0.4s ease;
+    }
+    .tour-card:hover .tour-image {
+      transform: scale(1.1);
+    }
+    .tour-content {
+      padding: 1rem 1.25rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .tour-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #ff6f61;
+      flex-grow: 0;
+    }
+    .tour-description {
+      font-size: 0.9rem;
+      color: #bbb;
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .tour-price {
+      font-weight: 700;
+      color: #ff6f61;
+      font-size: 1.1rem;
+    }
+
+    /* Carousel nav */
+    .carousel-nav {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .carousel-btn {
+      background: #ff6f61;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .carousel-btn:hover {
+      background: #e95a4c;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: #0d1117;
+      padding: 2rem 1rem;
+      color: #9aa5b1;
+      text-align: center;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0 }
+      100% { opacity: 1 }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+      .btn-primary {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+      }
+      .tours-section {
+        margin: -4rem 1rem 3rem;
+        padding-bottom: 3rem;
+      }
+      .tour-card {
+        min-width: 220px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>DESAN</h1>
-    <p>Мы создаем сайты, Telegram/WhatsApp-ботов с CRM и многое другое</p>
-  </header>
+
+  <section class="hero">
+    <h1 class="hero-title">Путешествуй с комфортом вместе с Desan</h1>
+    <p class="hero-subtitle">Лучшие туры по Казахстану и миру для твоих незабываемых впечатлений</p>
+    <button class="btn-primary" onclick="scrollToTours()">Посмотреть туры</button>
+  </section>
+
+  <section class="tours-section" id="tours">
+    <h2>Популярные туры</h2>
+    <div class="carousel">
+      <div class="carousel-track" id="carousel-track">
+        <!-- Пример карточек туров. Заменяй на свои данные из backend -->
+        <div class="tour-card">
+          <img src="/static/images/tour1.jpg" alt="Тур в Алматы" class="tour-image" />
+          <div class="tour-content">
+            <h3 class="tour-title">Тур в Алматы</h3>
+            <p class="tour-description">Увлекательное путешествие в горы и природу Алматы.</p>
+            <div class="tour-price">от 25 000 ₸</div>
+          </div>
+        </div>
+        <div class="tour-card">
+          <img src="/static/images/tour2.jpg" alt="Круиз по Каспию" class="tour-image" />
+          <div class="tour-content">
+            <h3 class="tour-title">Круиз по Каспию</h3>
+            <p class="tour-description">Расслабляющий круиз с великолепными видами и комфортом.</p>
+            <div class="tour-price">от 40 000 ₸</div>
+          </div>
+        </div>
+        <div class="tour-card">
+          <img src="/static/images/tour3.jpg" alt="Экскурсия в Астану" class="tour-image" />
+          <div class="tour-content">
+            <h3 class="tour-title">Экскурсия в Астану</h3>
+            <p class="tour-description">Современная столица с интересной архитектурой и культурой.</p>
+            <div class="tour-price">от 15 000 ₸</div>
+          </div>
+        </div>
+        <!-- Можно добавлять сколько угодно -->
+      </div>
+    </div>
+    <div class="carousel-nav">
+      <button class="carousel-btn" id="prevBtn">&#8592; Назад</button>
+      <button class="carousel-btn" id="nextBtn">Вперед &#8594;</button>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Desan. Все права защищены.
+  </footer>
+
+  <script>
+    const track = document.getElementById('carousel-track');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let position = 0;
+    const cardWidth = 300; // ширина + margin-right примерно (280 + 20)
+
+    prevBtn.addEventListener('click', () => {
+      position += cardWidth;
+      if (position > 0) position = -(track.scrollWidth - track.clientWidth);
+      track.style.transform = `translateX(${position}px)`;
+    });
+
+    nextBtn.addEventListener('click', () => {
+      position -= cardWidth;
+      if (Math.abs(position) > (track.scrollWidth - track.clientWidth)) position = 0;
+      track.style.transform = `translateX(${position}px)`;
+    });
+
+    function scrollToTours() {
+      document.getElementById('tours').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // При загрузке плавно показываем все блоки (анимация)
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.hero-title, .hero-subtitle, .btn-primary, .tours-section').forEach(el => {
+        el.style.opacity = 1;
+      });
+    });
+  </script>
 </body>
 </html>
