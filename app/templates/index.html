@@ -22,107 +22,62 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding-top: 250px; /* увеличен отступ под шапку */
+      padding-top: 500px; /* под шапку 500px */
     }
 
     /* ========== HEADER ========== */
     header.header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 250px; /* увеличена высота */
+      height: 500px; /* в 2 раза выше */
       background: #0e0f14cc;
       backdrop-filter: saturate(180%) blur(10px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: white;
+      color: #fff; /* все белым */
       z-index: 10000;
       user-select: none;
       box-shadow: 0 2px 8px rgba(0,255,247,0.2);
       padding: 0 20px;
+      text-align: center;
     }
 
-    /* Логотип */
+    /* Логотип - просто белый, без анимации */
     .logo {
       font-weight: 900;
-      font-size: 5.5rem; /* чуть больше */
+      font-size: 7rem;
       letter-spacing: 12px;
       color: #fff;
-      text-transform: uppercase;
-      text-shadow:
-        0 0 20px #00fff7,
-        0 0 40px #00ff8a,
-        0 0 55px #00ff4c,
-        0 0 70px #00ff10;
-      animation: logoGlow 3.5s ease-in-out infinite alternate;
-      cursor: default;
       user-select: none;
-      position: relative;
-      margin-bottom: 16px; /* увеличен отступ */
+      margin-bottom: 24px;
+      cursor: default;
+      text-shadow: none;
+      transform: none;
     }
 
-    @keyframes logoGlow {
-      0% {
-        text-shadow:
-          0 0 20px #00fff7,
-          0 0 40px #00ff8a,
-          0 0 55px #00ff4c,
-          0 0 70px #00ff10;
-        color: #fff;
-        transform: scale(1);
-      }
-      50% {
-        text-shadow:
-          0 0 60px #00fff7,
-          0 0 100px #00ff8a,
-          0 0 130px #00ff4c,
-          0 0 150px #00ff10;
-        color: #e0ffe0;
-        transform: scale(1.1);
-      }
-      100% {
-        text-shadow:
-          0 0 20px #00fff7,
-          0 0 40px #00ff8a,
-          0 0 55px #00ff4c,
-          0 0 70px #00ff10;
-        color: #fff;
-        transform: scale(1);
-      }
-    }
-
-    /* Подзаголовок в шапке */
+    /* Подзаголовок */
     .header-subtitle {
       font-weight: 600;
-      font-size: 1.8rem; /* увеличен размер */
-      color: #00ff9eee;
+      font-size: 2.5rem;
+      color: #fff;
       letter-spacing: 2px;
-      text-shadow: 0 0 8px #00ff9eaa;
       user-select: none;
-      animation: subtitleFadeIn 2.5s ease forwards;
-      opacity: 0;
-      margin-bottom: 12px; /* увеличен отступ */
+      margin-bottom: 16px;
     }
 
-    @keyframes subtitleFadeIn {
-      to {opacity: 1;}
-    }
-
-    /* Дополнительный текст в шапке */
+    /* Описание */
     .header-description {
       font-weight: 500;
-      font-size: 1.2rem; /* чуть больше */
-      color: #aaffcccc;
+      font-size: 1.5rem;
+      color: #fff;
       max-width: 900px;
-      text-align: center;
-      text-shadow: 0 0 6px #00ffaaaa;
-      user-select: none;
-      animation: subtitleFadeIn 3.5s ease forwards;
-      opacity: 0;
+      padding: 0 10px;
       line-height: 1.5;
-      margin-bottom: 16px; /* добавлен отступ снизу */
-      padding: 0 10px; /* небольшой внутренний отступ для мобильных */
+      user-select: none;
+      opacity: 0.9;
+      max-width: 900px;
     }
 
     /* ========== MATRIX CANVAS ========== */
@@ -130,7 +85,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
-      height: 250px; /* увеличен до высоты шапки */
+      height: 500px;
       z-index: -1;
       pointer-events: none;
       background: transparent;
@@ -141,14 +96,14 @@
     main {
       max-width: 1080px;
       width: 90vw;
-      text-align: center;
       color: #ccc;
       user-select: none;
-      margin-bottom: 60px; /* добавлен отступ снизу, перед футером */
+      margin-bottom: 60px;
+      text-align: center;
     }
 
     main section {
-      margin-bottom: 4.5rem; /* увеличены отступы между секциями */
+      margin-bottom: 4.5rem;
       opacity: 0;
       transform: translateY(30px);
       animation: fadeUp 1.6s forwards;
@@ -166,7 +121,7 @@
 
     /* Текст блока about */
     .about p {
-      font-size: 1.3rem; /* чуть больше */
+      font-size: 1.3rem;
       line-height: 1.75;
       max-width: 900px;
       margin: 0 auto;
@@ -180,80 +135,114 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2.8rem; /* увеличен gap */
+      gap: 2.8rem;
       margin-top: 1rem;
     }
 
     .service-item {
       background: #011b1d;
       border-radius: 16px;
-      padding: 30px 35px; /* увеличен padding */
-      width: 320px; /* чуть шире */
-      box-shadow:
-        0 0 20px #00ff8a88,
-        0 0 35px #00ff8a44 inset;
-      color: #00ffa0;
+      padding: 30px 35px;
+      width: 320px;
+      color: #fff; /* белый текст */
       font-weight: 700;
       font-size: 1.2rem;
-      cursor: default;
-      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1),
-                  box-shadow 0.4s ease;
+      cursor: pointer;
       position: relative;
-      overflow: hidden;
       user-select: none;
-      animation: glowPulse 4s ease-in-out infinite;
+      box-shadow: none;
+      border: 2px solid transparent;
+      overflow: hidden;
+      transition: border-color 0.3s ease, color 0.3s ease;
     }
-    .service-item::before {
-      content: '';
-      position: absolute;
-      top: -60%;
-      left: -45%;
-      width: 200%;
-      height: 220%;
-      background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.25),
-        transparent
-      );
-      transform: rotate(25deg);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-    }
+
     .service-item:hover {
-      transform: translateY(-10px);
-      box-shadow:
-        0 0 35px #00ffb5cc,
-        0 0 60px #00ffb5cc inset;
+      border-color: #00ff8a;
+      color: #00ff8a;
     }
-    .service-item:hover::before {
+
+    /* Текст глитч */
+    .glitch-text {
+      position: relative;
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      user-select: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    /* Скрытый блок с подробным описанием */
+    .service-description {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #00ff8a;
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.4;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      user-select: text;
+      max-height: 200px;
+      overflow-y: auto;
+      background: rgba(0, 255, 138, 0.1);
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+    }
+
+    .service-item.active .service-description {
       opacity: 1;
-      animation: shineSlide 1.5s forwards;
+      pointer-events: auto;
     }
 
-    @keyframes glowPulse {
-      0%, 100% {
-        box-shadow:
-          0 0 20px #00ff8a88,
-          0 0 35px #00ff8a44 inset;
-      }
-      50% {
-        box-shadow:
-          0 0 40px #00ffcccc,
-          0 0 60px #00ffcc88 inset;
-      }
+    /* Глитч-анимация для текста при наведении */
+    .service-item.active .glitch-text {
+      color: #00ff8a;
+      animation: glitchAnim 1.5s infinite;
     }
 
-    @keyframes shineSlide {
-      0% { transform: translateX(-150%) rotate(25deg); opacity: 0;}
-      50% { opacity: 1;}
-      100% { transform: translateX(150%) rotate(25deg); opacity: 0;}
+    @keyframes glitchAnim {
+      0% {
+        text-shadow:
+          2px 0 #00ff8a,
+          -2px 0 #00fff7;
+      }
+      20% {
+        text-shadow:
+          -2px 0 #00ff8a,
+          2px 0 #00fff7;
+      }
+      40% {
+        text-shadow:
+          2px 2px #00ff8a,
+          -2px -2px #00fff7;
+      }
+      60% {
+        text-shadow:
+          -2px 2px #00ff8a,
+          2px -2px #00fff7;
+      }
+      80% {
+        text-shadow:
+          2px -2px #00ff8a,
+          -2px 2px #00fff7;
+      }
+      100% {
+        text-shadow:
+          2px 0 #00ff8a,
+          -2px 0 #00fff7;
+      }
     }
 
     /* Кнопка */
     .btn-primary {
-      margin: 0 auto 6rem auto; /* увеличен нижний отступ */
+      margin: 0 auto 6rem auto;
       background: linear-gradient(90deg, #00fff7, #00ff8a);
       color: #0e0f14;
       font-weight: 800;
@@ -309,23 +298,22 @@
         width: 90%;
       }
       .logo {
-        font-size: 3.8rem;
+        font-size: 4.5rem;
         letter-spacing: 6px;
       }
       .header-subtitle {
-        font-size: 1.1rem;
-        bottom: 6px;
+        font-size: 1.6rem;
       }
       .header-description {
-        font-size: 1rem;
+        font-size: 1.1rem;
         max-width: 320px;
         padding: 0 5px;
       }
       body {
-        padding-top: 200px; /* чуть меньше на мобилках */
+        padding-top: 400px;
       }
       canvas.matrix-canvas {
-        height: 200px;
+        height: 400px;
       }
     }
   </style>
@@ -354,23 +342,41 @@
   </section>
 
   <section class="services" aria-label="Наши услуги">
-    <div class="service-item" title="Сайты любой сложности">
-      Создание сайтов любой сложности: от лендингов до корпоративных порталов и интернет-магазинов.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc1" aria-describedby="desc1" >
+      <div class="glitch-text">Создание сайтов любой сложности</div>
+      <div id="desc1" class="service-description" hidden>
+        Мы создадим для вас сайт любого типа: лендинг, корпоративный портал или интернет-магазин с индивидуальным дизайном и функционалом.
+      </div>
     </div>
-    <div class="service-item" title="Telegram-боты">
-      Разработка продвинутых Telegram-ботов с интеграцией и автоматизацией бизнес-процессов.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc2" aria-describedby="desc2" >
+      <div class="glitch-text">Разработка Telegram-ботов</div>
+      <div id="desc2" class="service-description" hidden>
+        Создаём продвинутые Telegram-боты для автоматизации ваших бизнес-процессов и интеграции с CRM и другими сервисами.
+      </div>
     </div>
-    <div class="service-item" title="WhatsApp-боты">
-      Создание WhatsApp-ботов с поддержкой CRM и обработкой заявок в режиме реального времени.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc3" aria-describedby="desc3" >
+      <div class="glitch-text">Создание WhatsApp-ботов</div>
+      <div id="desc3" class="service-description" hidden>
+        Разрабатываем WhatsApp-ботов с поддержкой CRM, которые мгновенно обрабатывают заявки и общаются с клиентами.
+      </div>
     </div>
-    <div class="service-item" title="Искусственный интеллект">
-      Внедрение AI и машинного обучения для повышения эффективности и аналитики.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc4" aria-describedby="desc4" >
+      <div class="glitch-text">Внедрение искусственного интеллекта</div>
+      <div id="desc4" class="service-description" hidden>
+        Используем AI и машинное обучение для повышения эффективности, автоматизации и аналитики вашего бизнеса.
+      </div>
     </div>
-    <div class="service-item" title="Облачные решения">
-      Надёжные и масштабируемые облачные решения на базе AWS, Google Cloud и Azure.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc5" aria-describedby="desc5" >
+      <div class="glitch-text">Облачные решения</div>
+      <div id="desc5" class="service-description" hidden>
+        Предоставляем надежные и масштабируемые облачные решения на AWS, Google Cloud и Azure.
+      </div>
     </div>
-    <div class="service-item" title="Автоматизация бизнес-процессов">
-      Оптимизация и автоматизация рутинных задач для роста бизнеса.
+    <div class="service-item" tabindex="0" role="button" aria-expanded="false" aria-controls="desc6" aria-describedby="desc6" >
+      <div class="glitch-text">Автоматизация бизнес-процессов</div>
+      <div id="desc6" class="service-description" hidden>
+        Оптимизируем и автоматизируем рутинные задачи для ускорения роста вашего бизнеса.
+      </div>
     </div>
   </section>
 
@@ -393,22 +399,20 @@
   let columns;
   let drops = [];
 
-  // Цвета для градиента текста (голубой к зелёному)
-  const colorStart = [0, 255, 247]; // #00fff7 - голубой
-  const colorEnd = [0, 255, 16];    // #00ff10 - зелёный
+  const colorStart = [0, 255, 247];
+  const colorEnd = [0, 255, 16];
 
-  // Линейное смешение цветов
   function lerpColor(start, end, t) {
     return start.map((c, i) => Math.round(c + (end[i] - c) * t));
   }
-  // RGB в CSS строку
+
   function rgbToString(rgb) {
     return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
   }
 
   function init() {
     width = window.innerWidth;
-    height = 250; // Высота шапки
+    height = 500;
     canvas.width = width;
     canvas.height = height;
     columns = Math.floor(width / fontSize);
@@ -419,7 +423,6 @@
   }
 
   function draw() {
-    // Полупрозрачный фон для размытия старых символов
     ctx.fillStyle = 'rgba(14,15,20, 0.1)';
     ctx.fillRect(0, 0, width, height);
 
@@ -428,7 +431,6 @@
     for(let i = 0; i < drops.length; i++) {
       const text = Math.random() > 0.5 ? '0' : '1';
 
-      // Нормализуем позицию для цвета (чем ниже — тем зеленее)
       let t = drops[i] / (height / fontSize);
       t = Math.min(Math.max(t, 0), 1);
       let rgb = lerpColor(colorStart, colorEnd, t);
@@ -436,10 +438,8 @@
       ctx.fillStyle = rgbToString(rgb);
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      // Медленная скорость падения
       drops[i] += 0.25 + Math.random() * 0.1;
 
-      // Возвращаем поток наверх с вероятностью и сбросом
       if(drops[i] * fontSize > height && Math.random() > 0.97) {
         drops[i] = 0;
       }
@@ -455,6 +455,47 @@
 
   init();
   loop();
+
+  // ======= Анимация глитча и раскрытия описания =======
+  const serviceItems = document.querySelectorAll('.service-item');
+
+  serviceItems.forEach(item => {
+    const glitchText = item.querySelector('.glitch-text');
+    const desc = item.querySelector('.service-description');
+
+    // При клике или клавише Enter/Space на блоке переключаем состояние
+    function toggleActive() {
+      const isActive = item.classList.contains('active');
+      serviceItems.forEach(i => {
+        i.classList.remove('active');
+        i.querySelector('.service-description').hidden = true;
+        i.setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isActive) {
+        item.classList.add('active');
+        desc.hidden = false;
+        item.setAttribute('aria-expanded', 'true');
+      } else {
+        desc.hidden = true;
+        item.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    item.addEventListener('click', toggleActive);
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleActive();
+      }
+      if (e.key === 'Escape') {
+        item.classList.remove('active');
+        desc.hidden = true;
+        item.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
 </script>
 
 </body>
