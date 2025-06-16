@@ -1,5 +1,9 @@
 from flask import Flask
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-from app import routes  # этот импорт должен быть здесь, чтобы зарегистрировать маршруты
+    # Импортируем маршруты здесь, чтобы они были зарегистрированы на app
+    from app import routes
+
+    return app
